@@ -2,7 +2,47 @@
 # yarn lockfile v1
 
 
+"@worldbrain/storex-pattern-modules@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@worldbrain/storex-pattern-modules/-/storex-pattern-modules-0.3.0.tgz#f3ea52163aedc71a3b175897c78c13aad6ddadee"
+  integrity sha512-3+TWQ7oylAclHBy73UA1L/IYiLH1LkvgojYsKQHpXydQtqLk2H1S/eJ7/VZ9hjyG2vGdgG6tx1a5ILVI6phKEg==
+  dependencies:
+    lodash "^4.17.10"
+    source-map-support "^0.4.18"
+    user-logic "^0.0.1"
+
+lodash@^4.17.10, lodash@^4.17.11:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
+object-path@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.4.tgz#370ae752fbf37de3ea70a861c23bba8915691949"
+  integrity sha1-NwrnUvvzfePqcKhhwju6iRVpGUk=
+
+source-map-support@^0.4.18:
+  version "0.4.18"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
+  integrity sha512-try0/JqxPLF9nOjvSta7tVondkP5dwgyLDjVoyMDlmjugT2lRZ1OfsrYTkCd2hkDnJTKRbO/Rl3orm8vlsUzbA==
+  dependencies:
+    source-map "^0.5.6"
+
+source-map@^0.5.6:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
+  integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
+
 typescript@^3.6.3:
   version "3.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
   integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
+
+user-logic@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/user-logic/-/user-logic-0.0.1.tgz#cb3ce06eb46a1d38c0aa0cbf63856ad1b4f7bfa7"
+  integrity sha512-fptFCNu4xhscimigeSZcAY460Vh63dgpPHpKfZ75EJioWdZ9MpWryzINMPX+yNomsYJP3Pedj08vW5yHxoo3BA==
+  dependencies:
+    lodash "^4.17.11"
+    object-path "^0.11.4"
+    source-map-support "^0.4.18"

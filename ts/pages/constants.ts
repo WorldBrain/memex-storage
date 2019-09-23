@@ -1,11 +1,13 @@
+import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+
 export const pageCollectionName = 'pages'
 export const visitCollectionName = 'visits'
 export const bookmarkCollectionName = 'bookmarks'
 export const favIconCollectionName = 'favIcons'
 
-export const pageCollectionDefinition = {
+export const pageCollectionDefinition: StorageModuleCollections = {
     [pageCollectionName]: {
-        version: new Date(2018, 1, 1),
+        version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
             fullUrl: { type: 'text' },
@@ -29,9 +31,9 @@ export const pageCollectionDefinition = {
     },
 }
 
-export const visitCollectionDefinition = {
+export const visitCollectionDefinition: StorageModuleCollections = {
     [visitCollectionName]: {
-        version: new Date(2018, 1, 1),
+        version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
             time: { type: 'timestamp' },
@@ -45,9 +47,9 @@ export const visitCollectionDefinition = {
     },
 }
 
-export const bookmarkCollectionDefinition = {
+export const bookmarkCollectionDefinition: StorageModuleCollections = {
     [bookmarkCollectionName]: {
-        version: new Date(2018, 1, 1),
+        version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
             time: { type: 'timestamp' },
@@ -56,9 +58,9 @@ export const bookmarkCollectionDefinition = {
     },
 }
 
-export const favIconCollectionDefinition = {
+export const favIconCollectionDefinition: StorageModuleCollections = {
     [favIconCollectionName]: {
-        version: new Date(2018, 1, 1),
+        version: new Date('2018-02-01'),
         fields: {
             hostname: { type: 'string' },
             favIcon: { type: 'media' },

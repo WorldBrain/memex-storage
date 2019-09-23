@@ -1,8 +1,10 @@
+import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+
 export const annotationCollectionName = 'annotations'
 export const annotationBookmarkCollectionName = 'annotBookmarks'
 export const annotationListEntryCollectionName = 'annotListEntries'
 
-export const annotationCollectionDefinition = {
+export const annotationCollectionDefinition: StorageModuleCollections = {
     [annotationCollectionName]: {
         version: new Date('2019-02-19'),
         fields: {
@@ -24,35 +26,34 @@ export const annotationCollectionDefinition = {
             { field: 'lastEdited' },
             { field: 'comment' },
         ],
+        history: [
+            {
+                version: new Date('2018-08-26'),
+                fields: {
+                    pageTitle: { type: 'text' },
+                    pageUrl: { type: 'url' },
+                    body: { type: 'text' },
+                    comment: { type: 'text' },
+                    selector: { type: 'json' },
+                    createdWhen: { type: 'datetime' },
+                    lastEdited: { type: 'datetime' },
+                    url: { type: 'string' },
+                },
+                indices: [
+                    { field: 'url', pk: true },
+                    { field: 'pageTitle' },
+                    { field: 'body' },
+                    { field: 'createdWhen' },
+                    { field: 'comment' },
+                ],
+            },
+        ],
     },
 }
 
-export const annotationCollectionHistory = [
-    {
-        version: new Date(2018, 7, 26),
-        fields: {
-            pageTitle: { type: 'text' },
-            pageUrl: { type: 'url' },
-            body: { type: 'text' },
-            comment: { type: 'text' },
-            selector: { type: 'json' },
-            createdWhen: { type: 'datetime' },
-            lastEdited: { type: 'datetime' },
-            url: { type: 'string' },
-        },
-        indices: [
-            { field: 'url', pk: true },
-            { field: 'pageTitle' },
-            { field: 'body' },
-            { field: 'createdWhen' },
-            { field: 'comment' },
-        ],
-    },
-]
-
-export const annotationBookmarkCollectionDefinition = {
+export const annotationBookmarkCollectionDefinition: StorageModuleCollections = {
     [annotationBookmarkCollectionName]: {
-        version: new Date(2019, 0, 5),
+        version: new Date('2019-01-05'),
         fields: {
             url: { type: 'string' },
             createdAt: { type: 'datetime' },
@@ -64,9 +65,9 @@ export const annotationBookmarkCollectionDefinition = {
     },
 }
 
-export const annotationListEntryCollectionDefinition = {
+export const annotationListEntryCollectionDefinition: StorageModuleCollections = {
     [annotationListEntryCollectionName]: {
-        version: new Date(2019, 0, 4),
+        version: new Date('2019-01-04'),
         fields: {
             listId: { type: 'int' },
             url: { type: 'string' },

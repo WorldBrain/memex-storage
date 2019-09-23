@@ -1,3 +1,5 @@
+import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+
 import { listCollectionName } from '../lists/constants'
 
 export const socialPostCollectionName = 'socialPosts'
@@ -6,7 +8,7 @@ export const socialTagCollectionName = 'socialTags'
 export const socialBookmarkCollectionName = 'socialBookmarks'
 export const socialPostListEntryCollectionName = 'socialPostListEntries'
 
-export const socialPostCollectionDefinition = {
+export const socialPostCollectionDefinition: StorageModuleCollections = {
     [socialPostCollectionName]: {
         version: new Date('2019-04-22'),
         fields: {
@@ -31,7 +33,7 @@ export const socialPostCollectionDefinition = {
     },
 }
 
-export const socialUserCollectionDefinition = {
+export const socialUserCollectionDefinition: StorageModuleCollections = {
     [socialUserCollectionName]: {
         version: new Date('2019-04-22'),
         fields: {
@@ -50,7 +52,7 @@ export const socialUserCollectionDefinition = {
     },
 }
 
-export const socialTagCollectionDefinition = {
+export const socialTagCollectionDefinition: StorageModuleCollections = {
     [socialTagCollectionName]: {
         version: new Date('2019-05-17'),
         fields: {
@@ -70,7 +72,7 @@ export const socialTagCollectionDefinition = {
     },
 }
 
-export const socialBookmarkCollectionDefinition = {
+export const socialBookmarkCollectionDefinition: StorageModuleCollections = {
     [socialBookmarkCollectionName]: {
         version: new Date('2019-05-15'),
         fields: {
@@ -90,7 +92,7 @@ export const socialBookmarkCollectionDefinition = {
     },
 }
 
-export const socialPostListEntryDefinition = {
+export const socialPostListEntryDefinition: StorageModuleCollections = {
     [socialPostListEntryCollectionName]: {
         version: new Date('2019-05-17'),
         fields: {

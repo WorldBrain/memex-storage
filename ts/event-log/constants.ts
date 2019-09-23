@@ -1,8 +1,10 @@
+import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+
 export const eventLogCollectionName = 'eventLog'
 
-export const eventLogCollectionDefinition = {
+export const eventLogCollectionDefinition: StorageModuleCollections = {
     [eventLogCollectionName]: {
-        version: new Date(2018, 6, 14),
+        version: new Date('2018-07-14'),
         fields: {
             time: { type: 'datetime' },
             type: { type: 'string' },

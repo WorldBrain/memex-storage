@@ -1,8 +1,10 @@
+import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+
 export const backupChangeCollectionName = 'backupChanges'
 
-export const backupChangeCollectionDefinition = {
+export const backupChangeCollectionDefinition: StorageModuleCollections = {
     [backupChangeCollectionName]: {
-        version: new Date(2018, 11, 13),
+        version: new Date('2018-12-13'),
         fields: {
             timestamp: { type: 'datetime' },
             collection: { type: 'string' },

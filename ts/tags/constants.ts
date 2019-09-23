@@ -1,8 +1,10 @@
+import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+
 export const tagCollectionName = 'tags'
 
-export const tagCollectionDefinition = {
+export const tagCollectionDefinition: StorageModuleCollections = {
     [tagCollectionName]: {
-        version: new Date(2018, 1, 1),
+        version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
             name: { type: 'string' },
