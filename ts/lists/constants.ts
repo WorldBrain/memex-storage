@@ -1,10 +1,12 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 
-export const listCollectionName = 'customLists'
-export const listEntryCollectionName = 'pageListEntries'
+export const COLLECTION_NAMES = {
+    list: 'customLists',
+    listEntry: 'pageListEntries',
+}
 
-export const listCollectionDefinition: StorageModuleCollections = {
-    [listCollectionName]: {
+export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
+    [COLLECTION_NAMES.list]: {
         version: new Date('2019-08-29'),
         fields: {
             id: { type: 'string' },
@@ -58,10 +60,7 @@ export const listCollectionDefinition: StorageModuleCollections = {
             },
         ],
     },
-}
-
-export const listEntryCollectionDefinition: StorageModuleCollections = {
-    [listEntryCollectionName]: {
+    [COLLECTION_NAMES.listEntry]: {
         version: new Date('2018-07-12'),
         fields: {
             listId: { type: 'string' },

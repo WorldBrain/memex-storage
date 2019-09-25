@@ -1,12 +1,14 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 
-export const pageCollectionName = 'pages'
-export const visitCollectionName = 'visits'
-export const bookmarkCollectionName = 'bookmarks'
-export const favIconCollectionName = 'favIcons'
+export const COLLECTION_NAMES = {
+    page: 'pages',
+    visit: 'visits',
+    favIcon: 'favIcons',
+    bookmark: 'bookmarks',
+}
 
-export const pageCollectionDefinition: StorageModuleCollections = {
-    [pageCollectionName]: {
+export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
+    [COLLECTION_NAMES.page]: {
         version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
@@ -29,10 +31,7 @@ export const pageCollectionDefinition: StorageModuleCollections = {
             { field: 'hostname' },
         ],
     },
-}
-
-export const visitCollectionDefinition: StorageModuleCollections = {
-    [visitCollectionName]: {
+    [COLLECTION_NAMES.visit]: {
         version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
@@ -45,10 +44,7 @@ export const visitCollectionDefinition: StorageModuleCollections = {
         },
         indices: [{ field: ['time', 'url'], pk: true }, { field: 'url' }],
     },
-}
-
-export const bookmarkCollectionDefinition: StorageModuleCollections = {
-    [bookmarkCollectionName]: {
+    [COLLECTION_NAMES.visit]: {
         version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
@@ -56,10 +52,7 @@ export const bookmarkCollectionDefinition: StorageModuleCollections = {
         },
         indices: [{ field: 'url', pk: true }, { field: 'time' }],
     },
-}
-
-export const favIconCollectionDefinition: StorageModuleCollections = {
-    [favIconCollectionName]: {
+    [COLLECTION_NAMES.favIcon]: {
         version: new Date('2018-02-01'),
         fields: {
             hostname: { type: 'string' },

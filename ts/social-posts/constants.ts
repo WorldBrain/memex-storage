@@ -1,15 +1,17 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 
-import { listCollectionName } from '../lists/constants'
+import { COLLECTION_NAMES as LIST_COLLECTION_NAMES } from '../lists/constants'
 
-export const socialPostCollectionName = 'socialPosts'
-export const socialUserCollectionName = 'socialUsers'
-export const socialTagCollectionName = 'socialTags'
-export const socialBookmarkCollectionName = 'socialBookmarks'
-export const socialPostListEntryCollectionName = 'socialPostListEntries'
+export const COLLECTION_NAMES = {
+    tag: 'socialTags',
+    post: 'socialPosts',
+    user: 'socialUsers',
+    bookmark: 'socialBookmarks',
+    listEntry: 'socialPostListEntries'
+}
 
-export const socialPostCollectionDefinition: StorageModuleCollections = {
-    [socialPostCollectionName]: {
+export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
+    [COLLECTION_NAMES.post]: {
         version: new Date('2019-04-22'),
         fields: {
             text: { type: 'text' },
@@ -19,7 +21,7 @@ export const socialPostCollectionDefinition: StorageModuleCollections = {
         },
         relationships: [
             {
-                childOf: socialUserCollectionName,
+                childOf: COLLECTION_NAMES.user,
                 alias: 'userId',
                 fieldName: 'userId',
             },
@@ -31,10 +33,7 @@ export const socialPostCollectionDefinition: StorageModuleCollections = {
             { field: { relationship: 'userId' } },
         ],
     },
-}
-
-export const socialUserCollectionDefinition: StorageModuleCollections = {
-    [socialUserCollectionName]: {
+    [COLLECTION_NAMES.user]: {
         version: new Date('2019-04-22'),
         fields: {
             serviceId: { type: 'string' },
@@ -50,17 +49,14 @@ export const socialUserCollectionDefinition: StorageModuleCollections = {
             { field: 'username' },
         ],
     },
-}
-
-export const socialTagCollectionDefinition: StorageModuleCollections = {
-    [socialTagCollectionName]: {
+    [COLLECTION_NAMES.tag]: {
         version: new Date('2019-05-17'),
         fields: {
             name: { type: 'string' },
         },
         relationships: [
             {
-                childOf: socialPostCollectionName,
+                childOf: COLLECTION_NAMES.post,
                 alias: 'postId',
                 fieldName: 'postId',
             },
@@ -70,17 +66,14 @@ export const socialTagCollectionDefinition: StorageModuleCollections = {
             { field: { relationship: 'postId' } },
         ],
     },
-}
-
-export const socialBookmarkCollectionDefinition: StorageModuleCollections = {
-    [socialBookmarkCollectionName]: {
+    [COLLECTION_NAMES.bookmark]: {
         version: new Date('2019-05-15'),
         fields: {
             createdAt: { type: 'datetime' },
         },
         relationships: [
             {
-                singleChildOf: socialPostCollectionName,
+                singleChildOf: COLLECTION_NAMES.post,
                 alias: 'postId',
                 fieldName: 'postId',
             },
@@ -90,22 +83,19 @@ export const socialBookmarkCollectionDefinition: StorageModuleCollections = {
             { field: { relationship: 'postId' } },
         ],
     },
-}
-
-export const socialPostListEntryDefinition: StorageModuleCollections = {
-    [socialPostListEntryCollectionName]: {
+    [COLLECTION_NAMES.listEntry]: {
         version: new Date('2019-05-17'),
         fields: {
             createdAt: { type: 'datetime' },
         },
         relationships: [
             {
-                childOf: listCollectionName,
+                childOf: LIST_COLLECTION_NAMES.list,
                 alias: 'listId',
                 fieldName: 'listId',
             },
             {
-                childOf: socialPostCollectionName,
+                childOf: COLLECTION_NAMES.post,
                 alias: 'postId',
                 fieldName: 'postId',
             },

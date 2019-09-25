@@ -1,11 +1,13 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 
-export const annotationCollectionName = 'annotations'
-export const annotationBookmarkCollectionName = 'annotBookmarks'
-export const annotationListEntryCollectionName = 'annotListEntries'
+export const COLLECTION_NAMES = {
+    annotation: 'annotations',
+    listEntry: 'annotListEntries',
+    bookmark: 'annotBookmarks',
+}
 
-export const annotationCollectionDefinition: StorageModuleCollections = {
-    [annotationCollectionName]: {
+export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
+    [COLLECTION_NAMES.annotation]: {
         version: new Date('2019-02-19'),
         fields: {
             pageTitle: { type: 'text' },
@@ -49,10 +51,7 @@ export const annotationCollectionDefinition: StorageModuleCollections = {
             },
         ],
     },
-}
-
-export const annotationBookmarkCollectionDefinition: StorageModuleCollections = {
-    [annotationBookmarkCollectionName]: {
+    [COLLECTION_NAMES.bookmark]: {
         version: new Date('2019-01-05'),
         fields: {
             url: { type: 'string' },
@@ -63,10 +62,7 @@ export const annotationBookmarkCollectionDefinition: StorageModuleCollections = 
             { field: 'createdAt' },
         ],
     },
-}
-
-export const annotationListEntryCollectionDefinition: StorageModuleCollections = {
-    [annotationListEntryCollectionName]: {
+    [COLLECTION_NAMES.listEntry]: {
         version: new Date('2019-01-04'),
         fields: {
             listId: { type: 'int' },

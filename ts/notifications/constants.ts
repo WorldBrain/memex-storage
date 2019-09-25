@@ -1,9 +1,11 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 
-export const notificationCollectionName = 'notifications'
+export const COLLECTION_NAMES = {
+    notification: 'notifications',
+}
 
-export const notificationCollectionDefinition: StorageModuleCollections = {
-    [notificationCollectionName]: {
+export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
+    [COLLECTION_NAMES.notification]: {
         version: new Date('2019-08-18'),
         fields: {
             id: { type: 'string' },
