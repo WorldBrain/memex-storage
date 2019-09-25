@@ -44,7 +44,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         },
         indices: [{ field: ['time', 'url'], pk: true }, { field: 'url' }],
     },
-    [COLLECTION_NAMES.visit]: {
+    [COLLECTION_NAMES.bookmark]: {
         version: new Date('2018-02-01'),
         fields: {
             url: { type: 'string' },
