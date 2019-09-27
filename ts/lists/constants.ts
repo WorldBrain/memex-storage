@@ -11,8 +11,8 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         fields: {
             id: { type: 'string' },
             name: { type: 'string' },
-            isDeletable: { type: 'boolean' },
-            isNestable: { type: 'boolean' },
+            isDeletable: { type: 'boolean', optional: true },
+            isNestable: { type: 'boolean', optional: true },
             createdAt: { type: 'datetime' },
         },
         indices: [
