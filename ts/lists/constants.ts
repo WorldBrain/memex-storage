@@ -9,7 +9,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.list]: {
         version: new Date('2019-08-29'),
         fields: {
-            id: { type: 'string' },
+            id: { type: 'int' },
             name: { type: 'string' },
             isDeletable: { type: 'boolean', optional: true },
             isNestable: { type: 'boolean', optional: true },
@@ -26,10 +26,10 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             {
                 version: new Date('2018-07-12'),
                 fields: {
-                    id: { type: 'string' },
+                    id: { type: 'int' },
                     name: { type: 'string' },
-                    isDeletable: { type: 'boolean' },
-                    isNestable: { type: 'boolean' },
+                    isDeletable: { type: 'boolean', optional: true },
+                    isNestable: { type: 'boolean', optional: true },
                     createdAt: { type: 'datetime' },
                 },
                 indices: [
@@ -43,10 +43,10 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             {
                 version: new Date('2019-08-21'),
                 fields: {
-                    id: { type: 'string' },
+                    id: { type: 'int' },
                     name: { type: 'string' },
-                    isDeletable: { type: 'boolean' },
-                    isNestable: { type: 'boolean' },
+                    isDeletable: { type: 'boolean', optional: true },
+                    isNestable: { type: 'boolean', optional: true },
                     createdAt: { type: 'datetime' },
                     updatedAt: { type: 'datetime', optional: true },
                 },
@@ -63,7 +63,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.listEntry]: {
         version: new Date('2018-07-12'),
         fields: {
-            listId: { type: 'string' },
+            listId: { type: 'int' },
             pageUrl: { type: 'string' },
             fullUrl: { type: 'string' },
             createdAt: { type: 'datetime' },
