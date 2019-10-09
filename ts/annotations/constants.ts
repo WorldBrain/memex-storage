@@ -11,7 +11,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         version: new Date('2019-02-19'),
         fields: {
             pageTitle: { type: 'text' },
-            pageUrl: { type: 'url' },
+            pageUrl: { type: 'string' },
             body: { type: 'text' },
             comment: { type: 'text' },
             selector: { type: 'json' },
@@ -33,7 +33,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
                 version: new Date('2018-08-26'),
                 fields: {
                     pageTitle: { type: 'text' },
-                    pageUrl: { type: 'url' },
+                    pageUrl: { type: 'string' },
                     body: { type: 'text', optional: true },
                     comment: { type: 'text', optional: true },
                     selector: { type: 'json', optional: true },
@@ -57,10 +57,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             url: { type: 'string' },
             createdAt: { type: 'datetime' },
         },
-        indices: [
-            { field: 'url', pk: true },
-            { field: 'createdAt' },
-        ],
+        indices: [{ field: 'url', pk: true }, { field: 'createdAt' }],
     },
     [COLLECTION_NAMES.listEntry]: {
         version: new Date('2019-01-04'),

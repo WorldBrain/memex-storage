@@ -19,7 +19,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             hostname: { type: 'string' },
             screenshot: { type: 'media', optional: true },
             lang: { type: 'string', optional: true },
-            canonicalUrl: { type: 'url', optional: true },
+            canonicalUrl: { type: 'string', optional: true },
             description: { type: 'text', optional: true },
         },
         indices: [
