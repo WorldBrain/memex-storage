@@ -17,7 +17,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             text: { type: 'text' },
             domain: { type: 'string' },
             hostname: { type: 'string' },
-            screenshot: { type: 'media', optional: true },
+            screenshot: { type: 'blob', optional: true },
             lang: { type: 'string', optional: true },
             canonicalUrl: { type: 'string', optional: true },
             description: { type: 'text', optional: true },
@@ -56,7 +56,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         version: new Date('2018-02-01'),
         fields: {
             hostname: { type: 'string' },
-            favIcon: { type: 'media' },
+            favIcon: { type: 'blob' },
         },
         indices: [{ field: 'hostname', pk: true }],
     },
