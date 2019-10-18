@@ -1,6 +1,7 @@
 {
     "version": "2.5",
     "compilerOptions": {
+        "baseUrl": ".",
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -18,7 +19,16 @@
         "typeRoots": [
             "./node_modules/@types"
         ],
-        "outDir": "lib"
+        "outDir": "lib",
+        "paths": {
+            "@worldbrain/storex-pattern-modules": [
+                "external/@worldbrain/storex-pattern-modules/ts"
+            ],
+            "@worldbrain/memex-url-utils": [
+                "external/@worldbrain/memex-url-utils/ts"
+            ],
+            "src/*": ["ts/*"]
+        }
     },
     "filesGlob": [
         "./ts/**/*.ts",
