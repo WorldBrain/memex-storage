@@ -19,6 +19,7 @@
         "typeRoots": [
             "./node_modules/@types"
         ],
+        "downlevelIteration": true,
         "outDir": "lib",
         "paths": {
             "@worldbrain/storex-pattern-modules": [
