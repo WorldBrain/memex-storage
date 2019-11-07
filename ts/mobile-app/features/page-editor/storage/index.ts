@@ -8,7 +8,7 @@ import { URLNormalizer } from '@worldbrain/memex-url-utils'
 import {
     COLLECTION_DEFINITIONS,
     COLLECTION_NAMES,
-} from 'src/annotations/constants'
+} from '../../../../annotations/constants'
 import { Note } from '../types'
 
 export interface NoteOpArgs {

@@ -5,11 +5,11 @@ import {
 import {
     COLLECTION_DEFINITIONS as TAG_COLL_DEFINITIONS,
     COLLECTION_NAMES as TAG_COLL_NAMES,
-} from 'src/tags/constants'
+} from '../../../../tags/constants'
 import {
     COLLECTION_DEFINITIONS as LIST_COLL_DEFINITIONS,
     COLLECTION_NAMES as LIST_COLL_NAMES,
-} from 'src/lists/constants'
+} from '../../../../lists/constants'
 
 import { Tag, List, ListEntry, MetaTypeShape } from '../types'
 

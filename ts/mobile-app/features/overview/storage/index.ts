@@ -8,7 +8,7 @@ import { URLPartsExtractor, URLNormalizer } from '@worldbrain/memex-url-utils'
 import {
     COLLECTION_DEFINITIONS,
     COLLECTION_NAMES,
-} from 'src/pages/constants'
+} from '../../../../pages/constants'
 import { Page, Visit } from '../types'
 
 export interface Props extends StorageModuleConstructorArgs {
