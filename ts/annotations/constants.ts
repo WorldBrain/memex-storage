@@ -12,9 +12,9 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         fields: {
             pageTitle: { type: 'text' },
             pageUrl: { type: 'string' },
-            body: { type: 'text' },
-            comment: { type: 'text' },
-            selector: { type: 'json' },
+            body: { type: 'text', optional: true },
+            comment: { type: 'text', optional: true },
+            selector: { type: 'json', optional: true },
             createdWhen: { type: 'datetime' },
             lastEdited: { type: 'datetime' },
             url: { type: 'string' },
