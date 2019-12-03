@@ -13,10 +13,10 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         fields: {
             url: { type: 'string' },
             fullUrl: { type: 'text' },
-            fullTitle: { type: 'text' },
-            text: { type: 'text' },
             domain: { type: 'string' },
             hostname: { type: 'string' },
+            fullTitle: { type: 'text', optional: true },
+            text: { type: 'text', optional: true },
             screenshot: { type: 'blob', optional: true },
             lang: { type: 'string', optional: true },
             canonicalUrl: { type: 'string', optional: true },
