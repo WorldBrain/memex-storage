@@ -7,7 +7,7 @@ export const COLLECTION_NAMES = {
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.list]: {
-        version: new Date('2019-08-29'),
+        version: new Date('2019-09-13'),
         fields: {
             id: { type: 'int' },
             name: { type: 'string' },
@@ -17,7 +17,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         },
         indices: [
             { field: 'id', pk: true },
-            { field: 'name', unique: true },
+            { field: 'name' },
             { field: 'isDeletable' },
             { field: 'isNestable' },
             { field: 'createdAt' },
@@ -58,6 +58,23 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
                     { field: 'createdAt' },
                 ],
             },
+            {
+                version: new Date('2019-08-29'),
+                fields: {
+                    id: { type: 'int' },
+                    name: { type: 'string' },
+                    isDeletable: { type: 'boolean', optional: true },
+                    isNestable: { type: 'boolean', optional: true },
+                    createdAt: { type: 'datetime' },
+                },
+                indices: [
+                    { field: 'id', pk: true },
+                    { field: 'name', unique: true },
+                    { field: 'isDeletable' },
+                    { field: 'isNestable' },
+                    { field: 'createdAt' },
+                ],
+            }
         ],
     },
     [COLLECTION_NAMES.listEntry]: {
