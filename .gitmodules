@@ -1,6 +1,0 @@
-[submodule "external/@worldbrain/storex-pattern-modules"]
-	path = external/@worldbrain/storex-pattern-modules
-	url = https://github.com/WorldBrain/storex-pattern-modules
-[submodule "external/@worldbrain/memex-url-utils"]
-	path = external/@worldbrain/memex-url-utils
-	url = https://github.com/WorldBrain/memex-url-utils.git
