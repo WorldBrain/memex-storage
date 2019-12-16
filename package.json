@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/WorldBrain/memex-storage",
   "devDependencies": {
-    "@worldbrain/storex-pattern-modules": "^0.3.0",
+    "@worldbrain/storex-pattern-modules": "https://github.com/WorldBrain/storex-pattern-modules.git#877909b37c81e59b7743b0ee3c3160dfa5fe69dd",
     "typescript": "^3.6.3"
   },
   "peerDependencies": {
+    "@worldbrain/memex-url-utils": "https://github.com/WorldBrain/memex-url-utils.git#804670331cbe6e198a142035e5c922e83d5ecc42",
     "@worldbrain/storex-pattern-modules": "^0.3.0"
   }
 }
