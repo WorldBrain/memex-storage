@@ -1,7 +1,9 @@
 import {
     StorageModule,
     StorageModuleConfig,
+    StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
+import { URLNormalizer } from '@worldbrain/memex-url-utils'
 import {
     COLLECTION_DEFINITIONS as TAG_COLL_DEFINITIONS,
     COLLECTION_NAMES as TAG_COLL_NAMES,
@@ -20,6 +22,12 @@ export class MetaPickerStorage extends StorageModule {
     static DEF_SUGGESTION_LIMIT = 7
     /** This exists to mimic behavior implemented in memex WebExt; Storex auto-PK were not used for whatever reason. */
     static generateListId = () => Date.now()
+
+    constructor(private options: StorageModuleConstructorArgs & {
+        normalizeUrl: URLNormalizer
+    }) {
+        super(options)
+    }
 
     getConfig = (): StorageModuleConfig => ({
         collections: {
@@ -139,7 +147,10 @@ export class MetaPickerStorage extends StorageModule {
     })
 
     createTag(tag: Tag) {
-        return this.operation('createTag', tag)
+        return this.operation('createTag', {
+            ...tag,
+            url: this.options.normalizeUrl(tag.url),
+        })
     }
 
     createList(
@@ -155,8 +166,9 @@ export class MetaPickerStorage extends StorageModule {
     createPageListEntry(entry: { pageUrl: string; listId: number }) {
         return this.operation('createListEntry', {
             createdAt: new Date(),
+            listId: entry.listId,
+            pageUrl: this.options.normalizeUrl(entry.pageUrl),
             fullUrl: entry.pageUrl,
-            ...entry,
         })
     }
 
@@ -230,6 +242,8 @@ export class MetaPickerStorage extends StorageModule {
      * Should go through input `tags` and ensure only these tags exist for a given page.
      */
     async setPageTags({ tags, url }: { tags: string[]; url: string }) {
+        url = this.options.normalizeUrl(url)
+
         const existingTags = await this.findTagsByPage({ url })
 
         // Find any existing tags that are not in input list
@@ -308,10 +322,15 @@ export class MetaPickerStorage extends StorageModule {
     }
 
     deleteTag(tag: Tag) {
-        return this.operation('deleteTag', tag)
+        return this.operation('deleteTag', {
+            ...tag,
+            url: this.options.normalizeUrl(tag.url),
+        })
     }
 
     deleteTagsByPage({ url }: { url: string }) {
-        return this.operation('deleteTagsByPage', { url })
+        return this.operation('deleteTagsByPage', {
+            url: this.options.normalizeUrl(url)
+        })
     }
 }
