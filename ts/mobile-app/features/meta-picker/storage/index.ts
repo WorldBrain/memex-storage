@@ -173,6 +173,7 @@ export class MetaPickerStorage extends StorageModule {
     }
 
     findTagsByPage({ url }: { url: string }): Promise<Tag[]> {
+        url = this.options.normalizeUrl(url)
         return this.operation('findTagsByPage', { url })
     }
 
@@ -189,6 +190,7 @@ export class MetaPickerStorage extends StorageModule {
     }
 
     async findListsByPage({ url }: { url: string }): Promise<List[]> {
+        url = this.options.normalizeUrl(url)
         const entries = await this.findPageListEntriesByPage({ url })
         const listIds = [...new Set(entries.map(e => e.listId))]
 

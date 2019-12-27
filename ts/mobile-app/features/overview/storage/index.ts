@@ -117,6 +117,7 @@ export class OverviewStorage extends StorageModule {
     }
 
     async findPage({ url }: PageOpArgs): Promise<Page | null> {
+        url = this.normalizeUrl(url)
         const page = await this.operation('findPage', { url })
         if (!page) {
             return null
@@ -126,6 +127,7 @@ export class OverviewStorage extends StorageModule {
     }
 
     async isPageStarred({ url }: PageOpArgs): Promise<boolean> {
+        url = this.normalizeUrl(url)
         const bookmark = await this.operation('findBookmark', { url })
         return !!bookmark
     }
@@ -136,7 +138,6 @@ export class OverviewStorage extends StorageModule {
         const page: Page = {
             ...inputPage,
             url: this.normalizeUrl(inputPage.url),
-            fullUrl: inputPage.url,
             domain,
             hostname,
         }
@@ -145,6 +146,7 @@ export class OverviewStorage extends StorageModule {
     }
 
     async deletePage({ url }: PageOpArgs): Promise<void> {
+        url = this.normalizeUrl(url)
         // TODO: can we do this in a transaction?
         await this.operation('deleteVisitsForPage', { url })
         await this.operation('unstarPage', { url })
@@ -152,10 +154,12 @@ export class OverviewStorage extends StorageModule {
     }
 
     starPage({ url, time = Date.now() }: PageOpArgs & { time?: number }) {
+        url = this.normalizeUrl(url)
         return this.operation('starPage', { url, time })
     }
 
     unstarPage({ url }: PageOpArgs) {
+        url = this.normalizeUrl(url)
         return this.operation('unstarPage', { url })
     }
 
