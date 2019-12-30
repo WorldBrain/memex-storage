@@ -164,6 +164,7 @@ export class OverviewStorage extends StorageModule {
     }
 
     async setPageStar({ url, isStarred }: PageOpArgs & { isStarred: boolean }) {
+        url = this.normalizeUrl(url)
         const bookmark = await this.operation('findBookmark', { url })
 
         if (bookmark == null && isStarred) {
