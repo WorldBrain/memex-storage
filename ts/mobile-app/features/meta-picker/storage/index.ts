@@ -12,6 +12,7 @@ import {
     COLLECTION_DEFINITIONS as LIST_COLL_DEFINITIONS,
     COLLECTION_NAMES as LIST_COLL_NAMES,
 } from '../../../../lists/constants'
+import { SuggestArgs, SuggestPlugin } from '../../../plugins/suggest'
 
 import { Tag, List, ListEntry, MetaTypeShape } from '../types'
 
@@ -23,9 +24,11 @@ export class MetaPickerStorage extends StorageModule {
     /** This exists to mimic behavior implemented in memex WebExt; Storex auto-PK were not used for whatever reason. */
     static generateListId = () => Date.now()
 
-    constructor(private options: StorageModuleConstructorArgs & {
-        normalizeUrl: URLNormalizer
-    }) {
+    constructor(
+        private options: StorageModuleConstructorArgs & {
+            normalizeUrl: URLNormalizer
+        },
+    ) {
         super(options)
     }
 
@@ -143,6 +146,14 @@ export class MetaPickerStorage extends StorageModule {
                     url: '$url:string',
                 },
             },
+            [SuggestPlugin.SUGGEST_OP_ID]: {
+                operation: SuggestPlugin.SUGGEST_OP_ID,
+                args: {
+                    query: '$query:string',
+                    collection: '$collection:string',
+                    limit: '$limit:number',
+                },
+            },
         },
     })
 
@@ -230,6 +241,18 @@ export class MetaPickerStorage extends StorageModule {
         })
 
         return tags.map(tag => ({ name: tag.name, isChecked: tag.url === url }))
+    }
+
+    async suggest(
+        url: string,
+        suggestArgs: SuggestArgs,
+    ): Promise<MetaTypeShape[]> {
+        const suggested = await this.operation(
+            SuggestPlugin.SUGGEST_OP_ID,
+            suggestArgs,
+        )
+
+        return suggested.map(entry => ({ name: entry.name, isChecked: false }))
     }
 
     findPageListEntriesByList({
@@ -332,7 +355,7 @@ export class MetaPickerStorage extends StorageModule {
 
     deleteTagsByPage({ url }: { url: string }) {
         return this.operation('deleteTagsByPage', {
-            url: this.options.normalizeUrl(url)
+            url: this.options.normalizeUrl(url),
         })
     }
 }
