@@ -128,17 +128,15 @@ export class PageEditorStorage extends StorageModule {
         }
     }
 
-    private createAnnotationUrl = ({
+    private createAnnotationUrl({
         pageUrl,
         timestamp = Date.now(),
     }: {
         pageUrl: string
         timestamp?: number
-    }) =>
-        this.normalizeUrl(`${pageUrl}/#${timestamp}`, {
-            stripHash: false,
-            removeTrailingSlash: false,
-        })
+    }) {
+        return `${this.normalizeUrl(pageUrl)}/#${timestamp}`
+    }
 
     createNote(note: Omit<Note, 'url'>, customTimestamp = Date.now()) {
         const created = new Date()
