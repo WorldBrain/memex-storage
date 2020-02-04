@@ -102,6 +102,18 @@ export class MetaPickerStorage extends StorageModule {
                     listId: '$listId:number',
                 },
             },
+            findRecentEntriesByList: {
+                operation: 'findObjects',
+                collection: MetaPickerStorage.LIST_ENTRY_COLL,
+                args: [
+                    { listId: '$listId:number' },
+                    {
+                        order: [['createdAt', 'desc']],
+                        limit: '$limit:number',
+                        skip: '$skip:number',
+                    }
+                ]
+            },
             deleteList: {
                 operation: 'deleteObject',
                 collection: MetaPickerStorage.LIST_COLL,
@@ -180,6 +192,13 @@ export class MetaPickerStorage extends StorageModule {
             listId: entry.listId,
             pageUrl: this.options.normalizeUrl(entry.pageUrl),
             fullUrl: entry.pageUrl,
+        })
+    }
+
+    findRecentListEntries(listId: number, options: { skip: number, limit: number }) {
+        return this.operation('findRecentEntriesByList', {
+            listId,
+            ...options,
         })
     }
 
