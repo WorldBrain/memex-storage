@@ -15,6 +15,7 @@ import {
 import { SuggestArgs, SuggestPlugin } from '../../../plugins/suggest'
 
 import { Tag, List, ListEntry, MetaTypeShape } from '../types'
+import { MOBILE_LIST_NAME } from '../constants'
 
 export class MetaPickerStorage extends StorageModule {
     static TAG_COLL = TAG_COLL_NAMES.tag
@@ -376,5 +377,20 @@ export class MetaPickerStorage extends StorageModule {
         return this.operation('deleteTagsByPage', {
             url: this.options.normalizeUrl(url),
         })
+    }
+
+    async createMobileListIfAbsent() {
+        const foundMobileLists = await this.findListsByNames({
+            names: [MOBILE_LIST_NAME],
+        })
+        if (foundMobileLists.length) {
+            return foundMobileLists[0].id
+        }
+
+        return (await this.createList({
+            name: MOBILE_LIST_NAME,
+            isDeletable: false,
+            isNestable: false,
+        })).object.id
     }
 }
