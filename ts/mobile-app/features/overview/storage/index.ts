@@ -9,6 +9,9 @@ import {
     COLLECTION_DEFINITIONS,
     COLLECTION_NAMES,
 } from '../../../../pages/constants'
+import {
+    COLLECTION_NAMES as LISTS_COLLECTION_NAMES,
+} from '../../../../lists/constants'
 import { Page, Visit } from '../types'
 
 export interface Props extends StorageModuleConstructorArgs {
@@ -25,6 +28,7 @@ export class OverviewStorage extends StorageModule {
     static VISIT_COLL = COLLECTION_NAMES.visit
     static BOOKMARK_COLL = COLLECTION_NAMES.bookmark
     static FAVICON_COLL = COLLECTION_NAMES.favIcon
+
 
     private normalizeUrl: URLNormalizer
     private extractUrlParts: URLPartsExtractor
@@ -112,6 +116,13 @@ export class OverviewStorage extends StorageModule {
                         url: '$url:string',
                     },
                 },
+                deleteListEntriesForPage: {
+                    operation: 'deleteObjects',
+                    collection: LISTS_COLLECTION_NAMES.listEntry,
+                    args: {
+                        pageUrl: '$url:string',
+                    },
+                },
             },
         }
     }
@@ -151,6 +162,7 @@ export class OverviewStorage extends StorageModule {
         await this.operation('deleteVisitsForPage', { url })
         await this.operation('unstarPage', { url })
         await this.operation('deletePage', { url })
+        await this.operation('deleteListEntriesForPage', { url })
     }
 
     starPage({ url, time = Date.now() }: PageOpArgs & { time?: number }) {
