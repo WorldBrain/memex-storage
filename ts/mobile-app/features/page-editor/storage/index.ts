@@ -145,11 +145,11 @@ export class PageEditorStorage extends StorageModule {
             createdWhen: created,
             lastEdited: created,
             ...note,
+            pageUrl: this.normalizeUrl(note.pageUrl),
             url: this.createAnnotationUrl({
                 pageUrl: note.pageUrl,
                 timestamp: customTimestamp,
             }),
-            pageUrl: this.normalizeUrl(note.pageUrl),
         })
     }
 
@@ -164,6 +164,16 @@ export class PageEditorStorage extends StorageModule {
             ...note,
             isStarred: !!bookmark,
         }
+    }
+
+    async findNotes({ url }: NoteOpArgs): Promise<Note[]> {
+        const notes = await this.operation('findNotesForPage', { url })
+
+        for (const note of notes) {
+            note.isStarred = !!(await this.operation('findBookmark', { url }))
+        }
+
+        return notes
     }
 
     starNote({
