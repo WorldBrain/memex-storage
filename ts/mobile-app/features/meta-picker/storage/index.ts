@@ -228,12 +228,14 @@ export class MetaPickerStorage extends StorageModule {
         const entries = await this.findPageListEntriesByPage({ url })
         const listIds = [...new Set(entries.map(e => e.listId))]
 
-        return this.filterMobileList<List>(
+        return this.filterMobileList(
             await this.operation('findListsByIds', { listIds }),
-        )
+        ) as List[]
     }
 
-    private filterMobileList = <T = MetaTypeShape>(lists: T[]): T[] =>
+    private filterMobileList = (
+        lists: { name: string }[],
+    ): { name: string }[] =>
         lists.filter(list => list.name !== MOBILE_LIST_NAME)
 
     async findListSuggestions({
@@ -256,7 +258,7 @@ export class MetaPickerStorage extends StorageModule {
                 name: list.name,
                 isChecked: entryListIds.has(list.id),
             })),
-        )
+        ) as MetaTypeShape[]
     }
 
     async findTagSuggestions({
@@ -284,7 +286,7 @@ export class MetaPickerStorage extends StorageModule {
 
         return this.filterMobileList(
             suggested.map(entry => ({ name: entry.name, isChecked: false })),
-        )
+        ) as MetaTypeShape[]
     }
 
     findPageListEntriesByList({
