@@ -112,8 +112,8 @@ export class MetaPickerStorage extends StorageModule {
                         order: [['createdAt', 'desc']],
                         limit: '$limit:number',
                         skip: '$skip:number',
-                    }
-                ]
+                    },
+                ],
             },
             deleteList: {
                 operation: 'deleteObject',
@@ -196,7 +196,10 @@ export class MetaPickerStorage extends StorageModule {
         })
     }
 
-    findRecentListEntries(listId: number, options: { skip: number, limit: number }) {
+    findRecentListEntries(
+        listId: number,
+        options: { skip: number; limit: number },
+    ) {
         return this.operation('findRecentEntriesByList', {
             listId,
             ...options,
@@ -225,8 +228,13 @@ export class MetaPickerStorage extends StorageModule {
         const entries = await this.findPageListEntriesByPage({ url })
         const listIds = [...new Set(entries.map(e => e.listId))]
 
-        return this.operation('findListsByIds', { listIds })
+        return this.filterMobileList<List>(
+            await this.operation('findListsByIds', { listIds }),
+        )
     }
+
+    private filterMobileList = <T = MetaTypeShape>(lists: T[]): T[] =>
+        lists.filter(list => list.name !== MOBILE_LIST_NAME)
 
     async findListSuggestions({
         limit = MetaPickerStorage.DEF_SUGGESTION_LIMIT,
@@ -243,10 +251,12 @@ export class MetaPickerStorage extends StorageModule {
             limit,
         })
 
-        return lists.map(list => ({
-            name: list.name,
-            isChecked: entryListIds.has(list.id),
-        }))
+        return this.filterMobileList(
+            lists.map(list => ({
+                name: list.name,
+                isChecked: entryListIds.has(list.id),
+            })),
+        )
     }
 
     async findTagSuggestions({
@@ -272,7 +282,9 @@ export class MetaPickerStorage extends StorageModule {
             suggestArgs,
         )
 
-        return suggested.map(entry => ({ name: entry.name, isChecked: false }))
+        return this.filterMobileList(
+            suggested.map(entry => ({ name: entry.name, isChecked: false })),
+        )
     }
 
     findPageListEntriesByList({
@@ -387,10 +399,12 @@ export class MetaPickerStorage extends StorageModule {
             return foundMobileLists[0].id
         }
 
-        return (await this.createList({
-            name: MOBILE_LIST_NAME,
-            isDeletable: false,
-            isNestable: false,
-        })).object.id
+        return (
+            await this.createList({
+                name: MOBILE_LIST_NAME,
+                isDeletable: false,
+                isNestable: false,
+            })
+        ).object.id
     }
 }
