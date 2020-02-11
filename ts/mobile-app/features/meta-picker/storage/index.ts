@@ -380,6 +380,20 @@ export class MetaPickerStorage extends StorageModule {
         return this.operation('deletePageFromList', entry)
     }
 
+    async deletePageEntryByName(entry: { name: string; url: string }) {
+        const lists = await this.findListsByNames({ names: [entry.name] })
+        const listId = lists[0]?.id
+
+        if (!listId) {
+            return
+        }
+
+        return this.operation('deletePageFromList', {
+            listId,
+            name: entry.name,
+        })
+    }
+
     deleteTag(tag: Tag) {
         return this.operation('deleteTag', {
             ...tag,
