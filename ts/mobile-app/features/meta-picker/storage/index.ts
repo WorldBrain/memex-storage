@@ -390,7 +390,7 @@ export class MetaPickerStorage extends StorageModule {
 
         return this.operation('deletePageFromList', {
             listId,
-            name: entry.name,
+            url: entry.url,
         })
     }
 
