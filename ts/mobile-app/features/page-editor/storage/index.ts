@@ -77,6 +77,11 @@ export class PageEditorStorage extends StorageModule {
                         url: '$url:string',
                     },
                 },
+                updateNoteText: {
+                    operation: 'updateObject',
+                    collection: PageEditorStorage.NOTE_COLL,
+                    args: [{ url: '$url:string' }, { comment: '$text:string' }],
+                },
                 deleteNote: {
                     operation: 'deleteObject',
                     collection: PageEditorStorage.NOTE_COLL,
@@ -151,6 +156,10 @@ export class PageEditorStorage extends StorageModule {
                 timestamp: customTimestamp,
             }),
         })
+    }
+
+    async updateNoteText(args: { url: string; text: string }) {
+        return this.operation('updateNoteText', args)
     }
 
     async findNote({ url }: NoteOpArgs): Promise<Note | null> {
