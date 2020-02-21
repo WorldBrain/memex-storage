@@ -243,8 +243,21 @@ export class MetaPickerStorage extends StorageModule {
         url,
     }: {
         limit?: number
-        url: string
+        url?: string
     }): Promise<MetaTypeShape[]> {
+        if (!url) {
+            const lists: List[] = await this.operation('findListSuggestions', {
+                limit,
+            })
+
+            return this.filterMobileList(
+                lists.map(list => ({
+                    name: list.name,
+                    isChecked: false,
+                })),
+            ) as MetaTypeShape[]
+        }
+
         const entries = await this.findPageListEntriesByPage({ url })
 
         const entryListIds = new Set(entries.map(e => e.listId))
@@ -275,10 +288,7 @@ export class MetaPickerStorage extends StorageModule {
         return tags.map(tag => ({ name: tag.name, isChecked: tag.url === url }))
     }
 
-    async suggest(
-        url: string,
-        suggestArgs: SuggestArgs,
-    ): Promise<MetaTypeShape[]> {
+    async suggest(suggestArgs: SuggestArgs): Promise<MetaTypeShape[]> {
         const suggested = await this.operation(
             SuggestPlugin.SUGGEST_OP_ID,
             suggestArgs,
