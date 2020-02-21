@@ -186,4 +186,8 @@ export class PageEditorStorage extends StorageModule {
     unstarNote({ url }: NoteOpArgs) {
         return this.operation('unstarNote', { url })
     }
+
+    async deleteNoteByUrl({ url }: NoteOpArgs): Promise<void> {
+        return this.operation('deleteNote', { url })
+    }
 }
