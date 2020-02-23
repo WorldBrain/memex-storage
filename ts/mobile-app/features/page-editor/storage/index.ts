@@ -189,6 +189,8 @@ export class PageEditorStorage extends StorageModule {
     }
 
     async findNotes({ url }: NoteOpArgs): Promise<Note[]> {
+        url = this.normalizeUrl(url)
+
         const notes = await this.operation('findNotesForPage', { url })
 
         for (const note of notes) {
