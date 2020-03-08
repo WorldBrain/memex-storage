@@ -211,6 +211,10 @@ export class MetaPickerStorage extends StorageModule {
         return this.operation('findTagsByPage', { url })
     }
 
+    findTagsByAnnotation({ url }: { url: string }): Promise<Tag[]> {
+        return this.operation('findTagsByPage', { url })
+    }
+
     findTagsByName({ name }: { name: string }): Promise<Tag[]> {
         return this.operation('findTagsByName', { name })
     }
