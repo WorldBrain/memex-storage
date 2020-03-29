@@ -1,6 +1,6 @@
 {
   "name": "@worldbrain/memex-storage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared Storex storage definitions for the Memex extension and mobile apps",
   "scripts": {
     "prepare": "tsc",
