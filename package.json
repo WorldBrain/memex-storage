@@ -1,6 +1,6 @@
 {
   "name": "@worldbrain/memex-storage",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Shared Storex storage definitions for the Memex extension and mobile apps",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/WorldBrain/memex-storage",
   "devDependencies": {
-    "@worldbrain/storex-pattern-modules": "https://github.com/WorldBrain/storex-pattern-modules.git#877909b37c81e59b7743b0ee3c3160dfa5fe69dd",
-    "typescript": "^3.6.3"
+    "@worldbrain/storex-pattern-modules": "^0.3.0",
+    "typescript": "^3.8.0"
   },
   "peerDependencies": {
     "@worldbrain/memex-url-utils": "https://github.com/WorldBrain/memex-url-utils.git#804670331cbe6e198a142035e5c922e83d5ecc42",
