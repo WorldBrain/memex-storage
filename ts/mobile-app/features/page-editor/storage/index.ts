@@ -3,7 +3,7 @@ import {
     StorageModuleConfig,
     StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
-import { URLNormalizer } from '@worldbrain/memex-url-utils'
+import { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
 
 import {
     COLLECTION_DEFINITIONS,
