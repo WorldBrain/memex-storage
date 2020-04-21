@@ -10,10 +10,8 @@ import {
     COLLECTION_DEFINITIONS,
     COLLECTION_NAMES,
 } from '../../../../pages/constants'
-import {
-    COLLECTION_NAMES as LISTS_COLLECTION_NAMES,
-} from '../../../../lists/constants'
-import { Page, Visit } from '../types'
+import { COLLECTION_NAMES as LISTS_COLLECTION_NAMES } from '../../../../lists/constants'
+import { Page, Visit, Bookmark } from '../types'
 
 export interface Props extends StorageModuleConstructorArgs {
     normalizeUrl: URLNormalizer
@@ -29,7 +27,6 @@ export class OverviewStorage extends StorageModule {
     static VISIT_COLL = COLLECTION_NAMES.visit
     static BOOKMARK_COLL = COLLECTION_NAMES.bookmark
     static FAVICON_COLL = COLLECTION_NAMES.favIcon
-
 
     private normalizeUrl: URLNormalizer
     private extractUrlParts: URLPartsExtractor
@@ -87,6 +84,18 @@ export class OverviewStorage extends StorageModule {
                     args: {
                         url: '$url:string',
                     },
+                },
+                findRecentBookmarks: {
+                    operation: 'findObjects',
+                    collection: OverviewStorage.BOOKMARK_COLL,
+                    args: [
+                        {},
+                        {
+                            order: [['time', 'desc']],
+                            limit: '$limit:number',
+                            skip: '$skip:number',
+                        },
+                    ],
                 },
                 starPage: {
                     operation: 'createObject',
@@ -187,6 +196,16 @@ export class OverviewStorage extends StorageModule {
         } else {
             return
         }
+    }
+
+    async findRecentBookmarks({
+        limit,
+        skip,
+    }: {
+        limit: number
+        skip: number
+    }): Promise<Bookmark[]> {
+        return this.operation('findRecentBookmarks', { limit, skip })
     }
 
     visitPage({ url, time = Date.now() }: PageOpArgs & { time?: number }) {
