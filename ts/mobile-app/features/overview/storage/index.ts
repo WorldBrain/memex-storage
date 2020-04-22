@@ -119,6 +119,18 @@ export class OverviewStorage extends StorageModule {
                         url: '$url:string',
                     },
                 },
+                findRecentVisits: {
+                    operation: 'findObjects',
+                    collection: OverviewStorage.VISIT_COLL,
+                    args: [
+                        {},
+                        {
+                            order: [['time', 'desc']],
+                            limit: '$limit:number',
+                            skip: '$skip:number',
+                        },
+                    ],
+                },
                 deleteVisitsForPage: {
                     operation: 'deleteObjects',
                     collection: OverviewStorage.VISIT_COLL,
@@ -185,20 +197,24 @@ export class OverviewStorage extends StorageModule {
         return this.operation('unstarPage', { url })
     }
 
-    async setPageStar({ url, isStarred }: PageOpArgs & { isStarred: boolean }) {
+    async setPageStar({
+        url,
+        isStarred,
+        time = Date.now(),
+    }: PageOpArgs & { isStarred: boolean; time?: number }) {
         url = this.normalizeUrl(url)
         const bookmark = await this.operation('findBookmark', { url })
 
         if (bookmark == null && isStarred) {
-            return this.operation('starPage', { url, time: Date.now() })
+            return this.starPage({ url, time })
         } else if (bookmark != null && !isStarred) {
-            return this.operation('unstarPage', { url })
+            return this.unstarPage({ url })
         } else {
             return
         }
     }
 
-    async findRecentBookmarks({
+    async findLatestBookmarks({
         limit,
         skip,
     }: {
@@ -219,5 +235,45 @@ export class OverviewStorage extends StorageModule {
 
     findPageVisits({ url }: PageOpArgs): Promise<Visit[]> {
         return this.operation('findVisitsForPage', { url })
+    }
+
+    async findLatestVisitsByPage({
+        limit,
+        skip,
+    }: {
+        limit: number
+        skip: number
+    }): Promise<Visit[]> {
+        const visitsByPage = new Map<string, Visit>()
+
+        const trackVisitIfPageNotSeen = (visit: Visit) => {
+            if (visitsByPage.get(visit.url) != null) {
+                return
+            }
+
+            visitsByPage.set(visit.url, visit)
+        }
+
+        // Internally we need to loop over visits, then group them by URL and see if we have enough
+        for (
+            let innerSkip = 0;
+            visitsByPage.size < limit + skip;
+            innerSkip += limit
+        ) {
+            const latestVisits: Visit[] = await this.operation(
+                'findRecentVisits',
+                { limit, skip: innerSkip },
+            )
+
+            if (!latestVisits.length) {
+                break // We've exhausted them!
+            }
+
+            latestVisits.forEach(trackVisitIfPageNotSeen)
+        }
+
+        return [...visitsByPage.values()]
+            .sort((a, b) => b.time - a.time)
+            .slice(skip, skip + limit)
     }
 }
