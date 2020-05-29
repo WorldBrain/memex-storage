@@ -17,7 +17,13 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             content: { type: 'text' },
             length: { type: 'int' },
             strategy: { type: 'string' },
+            createdWhen: { type: 'datetime' },
+            lastEdited: { type: 'datetime' },
         },
-        indices: [{ field: 'url', pk: true }],
+        indices: [
+            { field: 'url', pk: true },
+            { field: 'createdWhen' },
+            { field: 'lastEdited' },
+        ],
     },
 }
