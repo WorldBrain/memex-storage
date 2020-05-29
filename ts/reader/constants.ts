@@ -1,24 +1,23 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 
 export const COLLECTION_NAMES = {
-    readable: 'readable',
+    readablePage: 'readablePageArchives',
 }
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
-    [COLLECTION_NAMES.readable]: {
+    [COLLECTION_NAMES.readablePage]: {
         version: new Date('2020-05-12'),
         fields: {
             url: { type: 'string' },
             fullUrl: { type: 'text' },
             title: { type: 'text' },
-            content: { type: 'text', optional: true },
-            length: { type: 'int', optional: true },
+            excerpt: { type: 'text', optional: true },
+            byline: { type: 'text', optional: true },
+            dir: { type: 'string' },
+            content: { type: 'text' },
+            length: { type: 'int' },
             strategy: { type: 'string' },
         },
-        indices: [
-            { field: 'url', pk: true },
-            { field: 'fullUrl' },
-            { field: 'title' },
-        ],
+        indices: [{ field: 'url', pk: true }],
     },
 }
