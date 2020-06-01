@@ -9,8 +9,6 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         version: new Date('2020-05-12'),
         fields: {
             url: { type: 'string' },
-            fullUrl: { type: 'text' },
-            title: { type: 'text' },
             excerpt: { type: 'text', optional: true },
             byline: { type: 'text', optional: true },
             dir: { type: 'string' },
