@@ -21,7 +21,10 @@ export class MetaPickerStorage extends StorageModule {
     static TAG_COLL = TAG_COLL_NAMES.tag
     static LIST_COLL = LIST_COLL_NAMES.list
     static LIST_ENTRY_COLL = LIST_COLL_NAMES.listEntry
+
     static DEF_SUGGESTION_LIMIT = 7
+    static DEF_TAG_LIMIT = 1000
+
     /** This exists to mimic behavior implemented in memex WebExt; Storex auto-PK were not used for whatever reason. */
     static generateListId = () => Date.now()
 
@@ -78,9 +81,7 @@ export class MetaPickerStorage extends StorageModule {
             findTagsByPage: {
                 operation: 'findObjects',
                 collection: MetaPickerStorage.TAG_COLL,
-                args: {
-                    url: '$url:string',
-                },
+                args: [{ url: '$url:string' }, { limit: '$limit:int' }],
             },
             findTagsByName: {
                 operation: 'findObjects',
@@ -206,9 +207,15 @@ export class MetaPickerStorage extends StorageModule {
         })
     }
 
-    findTagsByPage({ url }: { url: string }): Promise<Tag[]> {
+    findTagsByPage({
+        url,
+        limit = MetaPickerStorage.DEF_TAG_LIMIT,
+    }: {
+        url: string
+        limit?: number
+    }): Promise<Tag[]> {
         url = this.options.normalizeUrl(url)
-        return this.operation('findTagsByPage', { url })
+        return this.operation('findTagsByPage', { url, limit })
     }
 
     findTagsByAnnotation({ url }: { url: string }): Promise<Tag[]> {
