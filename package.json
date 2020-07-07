@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Shared Storex storage definitions for the Memex extension and mobile apps",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc",
+    "prepare:watch": "npm run prepare -- -w",
+    "test": "mocha --require ts-node/register \"ts/**/*.test.ts\"",
+    "test:watch": "mocha -r source-map-support/register -r ts-node/register \"ts/**/*.test.ts\" --watch --watch-extensions ts"
   },
   "repository": {
     "type": "git",
@@ -18,12 +21,16 @@
     "url": "https://github.com/WorldBrain/memex-storage/issues"
   },
   "homepage": "https://github.com/WorldBrain/memex-storage",
+  "dependencies": {
+    "@worldbrain/memex-url-utils": "^0.1.1"
+  },
   "devDependencies": {
+    "@worldbrain/storex-backend-typeorm": "^0.2.1",
     "@worldbrain/storex-pattern-modules": "^0.3.0",
     "typescript": "^3.8.0"
   },
   "peerDependencies": {
-    "@worldbrain/memex-url-utils": "https://github.com/WorldBrain/memex-url-utils.git#804670331cbe6e198a142035e5c922e83d5ecc42",
+    "@worldbrain/storex-backend-typeorm": "^0.2.1",
     "@worldbrain/storex-pattern-modules": "^0.3.0"
   }
 }
