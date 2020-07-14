@@ -3,7 +3,7 @@ import {
     StorageModuleConfig,
     StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
-import { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
+import { URLNormalizer } from '@worldbrain/memex-url-utils'
 
 import {
     COLLECTION_DEFINITIONS,
@@ -239,7 +239,7 @@ export class PageEditorStorage extends StorageModule {
         const notes = await this.findNotes({ url })
 
         return notes.filter(
-            note => note.body?.length && note.selector != null,
+            (note) => note.body?.length && note.selector != null,
         ) as any
     }
 

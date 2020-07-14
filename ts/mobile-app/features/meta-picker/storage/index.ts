@@ -3,7 +3,7 @@ import {
     StorageModuleConfig,
     StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
-import { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
+import { URLNormalizer } from '@worldbrain/memex-url-utils'
 import {
     COLLECTION_DEFINITIONS as TAG_COLL_DEFINITIONS,
     COLLECTION_NAMES as TAG_COLL_NAMES,
@@ -237,7 +237,7 @@ export class MetaPickerStorage extends StorageModule {
     async findListsByPage({ url }: { url: string }): Promise<List[]> {
         url = this.options.normalizeUrl(url)
         const entries = await this.findPageListEntriesByPage({ url })
-        const listIds = [...new Set(entries.map(e => e.listId))]
+        const listIds = [...new Set(entries.map((e) => e.listId))]
 
         return this.filterMobileList(
             await this.operation('findListsByIds', { listIds }),
@@ -247,7 +247,7 @@ export class MetaPickerStorage extends StorageModule {
     private filterMobileList = (
         lists: { name: string }[],
     ): { name: string }[] =>
-        lists.filter(list => list.name !== MOBILE_LIST_NAME)
+        lists.filter((list) => list.name !== MOBILE_LIST_NAME)
 
     async findListSuggestions({
         limit = MetaPickerStorage.DEF_SUGGESTION_LIMIT,
@@ -262,7 +262,7 @@ export class MetaPickerStorage extends StorageModule {
             })
 
             return this.filterMobileList(
-                lists.map(list => ({
+                lists.map((list) => ({
                     name: list.name,
                     isChecked: false,
                 })),
@@ -271,14 +271,14 @@ export class MetaPickerStorage extends StorageModule {
 
         const entries = await this.findPageListEntriesByPage({ url })
 
-        const entryListIds = new Set(entries.map(e => e.listId))
+        const entryListIds = new Set(entries.map((e) => e.listId))
 
         const lists: List[] = await this.operation('findListSuggestions', {
             limit,
         })
 
         return this.filterMobileList(
-            lists.map(list => ({
+            lists.map((list) => ({
                 name: list.name,
                 isChecked: entryListIds.has(list.id),
             })),
@@ -296,7 +296,10 @@ export class MetaPickerStorage extends StorageModule {
             limit,
         })
 
-        return tags.map(tag => ({ name: tag.name, isChecked: tag.url === url }))
+        return tags.map((tag) => ({
+            name: tag.name,
+            isChecked: tag.url === url,
+        }))
     }
 
     async suggest(suggestArgs: SuggestArgs): Promise<MetaTypeShape[]> {
@@ -306,7 +309,7 @@ export class MetaPickerStorage extends StorageModule {
         )
 
         return this.filterMobileList(
-            suggested.map(entry => ({ name: entry.name, isChecked: false })),
+            suggested.map((entry) => ({ name: entry.name, isChecked: false })),
         ) as MetaTypeShape[]
     }
 
@@ -329,12 +332,12 @@ export class MetaPickerStorage extends StorageModule {
         // Find any existing tags that are not in input list
         const inputTagsSet = new Set(tags)
         const toRemove = existingTags
-            .map(tag => tag.name)
-            .filter(name => !inputTagsSet.has(name))
+            .map((tag) => tag.name)
+            .filter((name) => !inputTagsSet.has(name))
 
         // Find any input tags that are not existing
-        const existingTagsSet = new Set(existingTags.map(t => t.name))
-        const toAdd = tags.filter(name => !existingTagsSet.has(name))
+        const existingTagsSet = new Set(existingTags.map((t) => t.name))
+        const toAdd = tags.filter((name) => !existingTagsSet.has(name))
 
         for (const name of toAdd) {
             await this.createTag({ name, url })
@@ -351,11 +354,11 @@ export class MetaPickerStorage extends StorageModule {
      */
     async setPageLists({ lists, url }: { lists: string[]; url: string }) {
         const existingLists = await this.findListsByNames({ names: lists })
-        const existingListsSet = new Set(existingLists.map(list => list.name))
+        const existingListsSet = new Set(existingLists.map((list) => list.name))
 
         // Create any missing lists
         const newListIds: number[] = []
-        const missingLists = lists.filter(list => !existingListsSet.has(list))
+        const missingLists = lists.filter((list) => !existingListsSet.has(list))
         for (const name of missingLists) {
             const result = await this.createList({ name })
             newListIds.push(result.object.id)
@@ -366,18 +369,18 @@ export class MetaPickerStorage extends StorageModule {
         // Find any existing entries that are not in input lists
         const inputListIds = [
             ...newListIds,
-            ...existingLists.map(list => list.id),
+            ...existingLists.map((list) => list.id),
         ]
         const inputListIdsSet = new Set(inputListIds)
         const toRemove = existingEntries
-            .map(entry => entry.listId)
-            .filter(id => !inputListIdsSet.has(id))
+            .map((entry) => entry.listId)
+            .filter((id) => !inputListIdsSet.has(id))
 
         // Find any input entries that are not existing
         const existingEntryIdSet = new Set(
-            existingEntries.map(entry => entry.listId),
+            existingEntries.map((entry) => entry.listId),
         )
-        const toAdd = inputListIds.filter(id => !existingEntryIdSet.has(id))
+        const toAdd = inputListIds.filter((id) => !existingEntryIdSet.has(id))
 
         for (const listId of toAdd) {
             await this.createPageListEntry({ listId, pageUrl: url })
