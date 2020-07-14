@@ -21,3 +21,8 @@ export interface Visit {
     scrollPerc?: number
     scrollPx?: number
 }
+
+export interface Bookmark {
+    url: string
+    time: number
+}
