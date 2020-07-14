@@ -3,8 +3,7 @@ import {
     StorageModuleConfig,
     StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
-import { URLPartsExtractor } from '@worldbrain/memex-url-utils/lib/extract-parts/types'
-import { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
+import { URLNormalizer, URLPartsExtractor } from '@worldbrain/memex-url-utils'
 
 import {
     COLLECTION_DEFINITIONS,
@@ -77,6 +76,16 @@ export class OverviewStorage extends StorageModule {
                     args: {
                         url: '$url:string',
                     },
+                },
+                updatePageTitle: {
+                    operation: 'updateObject',
+                    collection: OverviewStorage.PAGE_COLL,
+                    args: [
+                        { url: '$url:string' },
+                        {
+                            fullTitle: '$title:string',
+                        },
+                    ],
                 },
                 findBookmark: {
                     operation: 'findObject',
@@ -185,6 +194,14 @@ export class OverviewStorage extends StorageModule {
         await this.operation('unstarPage', { url })
         await this.operation('deletePage', { url })
         await this.operation('deleteListEntriesForPage', { url })
+    }
+
+    async updatePageTitle({
+        url,
+        title,
+    }: { title: string } & PageOpArgs): Promise<void> {
+        url = this.normalizeUrl(url)
+        await this.operation('updatePageTitle', { url, title })
     }
 
     starPage({ url, time = Date.now() }: PageOpArgs & { time?: number }) {

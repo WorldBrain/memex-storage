@@ -3,13 +3,17 @@ import {
     StorageModuleConfig,
     StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
-import { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
+import { URLNormalizer } from '@worldbrain/memex-url-utils'
 
 import {
     COLLECTION_DEFINITIONS,
     COLLECTION_NAMES,
 } from '../../../../annotations/constants'
 import { Note } from '../types'
+
+type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+
+type NoteCreate = Omit<Note, 'url'>
 
 export interface NoteOpArgs {
     url: string
@@ -95,6 +99,13 @@ export class PageEditorStorage extends StorageModule {
                         url: '$url:string',
                     },
                 },
+                deleteNotesForPage: {
+                    operation: 'deleteObjects',
+                    collection: PageEditorStorage.NOTE_COLL,
+                    args: {
+                        pageUrl: '$url:string',
+                    },
+                },
                 deleteNoteFromList: {
                     operation: 'deleteObject',
                     collection: PageEditorStorage.LIST_ENTRY_COLL,
@@ -139,29 +150,51 @@ export class PageEditorStorage extends StorageModule {
         }
     }
 
-    private createAnnotationUrl({
-        pageUrl,
-        timestamp = Date.now(),
-    }: {
+    private createAnnotationUrl = (args: {
         pageUrl: string
-        timestamp?: number
-    }) {
-        return `${this.normalizeUrl(pageUrl)}/#${timestamp}`
-    }
+        timestamp: number
+    }) => `${args.pageUrl}/#${args.timestamp}`
 
-    createNote(note: Omit<Note, 'url'>, customTimestamp = Date.now()) {
-        const created = new Date()
+    createNote(
+        note: RequiredBy<NoteCreate, 'comment'>,
+        customTimestamp = Date.now(),
+    ) {
+        const pageUrl = this.normalizeUrl(note.pageUrl)
 
         return this.operation('createNote', {
-            createdWhen: created,
-            lastEdited: created,
+            createdWhen: new Date(customTimestamp),
+            lastEdited: new Date(customTimestamp),
             ...note,
-            pageUrl: this.normalizeUrl(note.pageUrl),
+            pageUrl,
             url: this.createAnnotationUrl({
-                pageUrl: note.pageUrl,
+                pageUrl,
                 timestamp: customTimestamp,
             }),
         })
+    }
+
+    async createAnnotation(
+        annotation: RequiredBy<NoteCreate, 'selector' | 'body'>,
+        customTimestamp = Date.now(),
+    ) {
+        const pageUrl = this.normalizeUrl(annotation.pageUrl)
+
+        return this.operation('createNote', {
+            createdWhen: new Date(customTimestamp),
+            lastEdited: new Date(customTimestamp),
+            ...annotation,
+            pageUrl,
+            url: this.createAnnotationUrl({
+                pageUrl,
+                timestamp: customTimestamp,
+            }),
+        })
+    }
+
+    async deleteNotesForPage({ url }: { url: string }) {
+        const pageUrl = this.normalizeUrl(url)
+
+        return this.operation('deleteNotesForPage', { url: pageUrl })
     }
 
     async updateNoteText(args: {
@@ -198,6 +231,16 @@ export class PageEditorStorage extends StorageModule {
         }
 
         return notes
+    }
+
+    async findAnnotations({
+        url,
+    }: NoteOpArgs): Promise<RequiredBy<Note, 'body' | 'selector'>[]> {
+        const notes = await this.findNotes({ url })
+
+        return notes.filter(
+            (note) => note.body?.length && note.selector != null,
+        ) as any
     }
 
     starNote({
