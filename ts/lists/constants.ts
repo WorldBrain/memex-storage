@@ -3,6 +3,8 @@ import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 export const COLLECTION_NAMES = {
     list: 'customLists',
     listEntry: 'pageListEntries',
+    listDescription: 'customListDescriptions',
+    listEntryDescription: 'pageListEntryDescriptions',
 }
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
@@ -89,6 +91,27 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             { field: ['listId', 'pageUrl'], pk: true },
             { field: 'listId' },
             { field: 'pageUrl' },
+        ],
+    },
+    [COLLECTION_NAMES.listDescription]: {
+        version: new Date(),
+        fields: {
+            listId: { type: 'int' },
+            description: { type: 'text' },
+        },
+        indices: [
+            { field: 'listId', pk: true },
+        ],
+    },
+    [COLLECTION_NAMES.listEntryDescription]: {
+        version: new Date(),
+        fields: {
+            listId: { type: 'int' },
+            pageUrl: { type: 'string' },
+            description: { type: 'text' },
+        },
+        indices: [
+            { field: ['listId', 'pageUrl'], pk: true },
         ],
     },
 }
