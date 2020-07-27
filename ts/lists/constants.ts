@@ -1,4 +1,5 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+import { STORAGE_VERSIONS } from '../browser-extension/storage/versions'
 
 export const COLLECTION_NAMES = {
     list: 'customLists',
@@ -94,7 +95,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         ],
     },
     [COLLECTION_NAMES.listDescription]: {
-        version: new Date(),
+        version: new Date(STORAGE_VERSIONS[20].version),
         fields: {
             listId: { type: 'int' },
             description: { type: 'text' },
@@ -104,7 +105,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         ],
     },
     [COLLECTION_NAMES.listEntryDescription]: {
-        version: new Date(),
+        version: new Date(STORAGE_VERSIONS[20].version),
         fields: {
             listId: { type: 'int' },
             pageUrl: { type: 'string' },
