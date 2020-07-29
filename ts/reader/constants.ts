@@ -1,4 +1,5 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+import { STORAGE_VERSIONS } from '../browser-extension/storage/versions'
 
 export const COLLECTION_NAMES = {
     readablePage: 'readablePageArchives',
@@ -6,7 +7,7 @@ export const COLLECTION_NAMES = {
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.readablePage]: {
-        version: new Date('2020-05-12'),
+        version: STORAGE_VERSIONS[20].version,
         fields: {
             url: { type: 'string' },
             title: { type: 'text' },
