@@ -11,11 +11,11 @@ import {
 import {
     COLLECTION_DEFINITIONS as LIST_COLL_DEFINITIONS,
     COLLECTION_NAMES as LIST_COLL_NAMES,
+    SPECIAL_LISTS,
 } from '../../../../lists/constants'
 import { SuggestArgs, SuggestPlugin } from '../../../plugins/suggest'
 
 import { Tag, List, ListEntry, MetaTypeShape } from '../types'
-import { MOBILE_LIST_NAME } from '../constants'
 
 export class MetaPickerStorage extends StorageModule {
     static TAG_COLL = TAG_COLL_NAMES.tag
@@ -247,7 +247,7 @@ export class MetaPickerStorage extends StorageModule {
     private filterMobileList = (
         lists: { name: string }[],
     ): { name: string }[] =>
-        lists.filter((list) => list.name !== MOBILE_LIST_NAME)
+        lists.filter((list) => list.name !== SPECIAL_LISTS.MOBILE)
 
     async findListSuggestions({
         limit = MetaPickerStorage.DEF_SUGGESTION_LIMIT,
@@ -433,7 +433,7 @@ export class MetaPickerStorage extends StorageModule {
 
     async createMobileListIfAbsent() {
         const foundMobileLists = await this.findListsByNames({
-            names: [MOBILE_LIST_NAME],
+            names: [SPECIAL_LISTS.MOBILE],
         })
         if (foundMobileLists.length) {
             return foundMobileLists[0].id
@@ -441,7 +441,7 @@ export class MetaPickerStorage extends StorageModule {
 
         return (
             await this.createList({
-                name: MOBILE_LIST_NAME,
+                name: SPECIAL_LISTS.MOBILE,
                 isDeletable: false,
                 isNestable: false,
             })

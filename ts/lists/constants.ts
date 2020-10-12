@@ -1,6 +1,11 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 import { STORAGE_VERSIONS } from '../browser-extension/storage/versions'
 
+export const SPECIAL_LISTS = {
+    MOBILE: 'Saved from Mobile',
+    INBOX: 'Inbox',
+}
+
 export const COLLECTION_NAMES = {
     list: 'customLists',
     listEntry: 'pageListEntries',
@@ -77,7 +82,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
                     { field: 'isNestable' },
                     { field: 'createdAt' },
                 ],
-            }
+            },
         ],
     },
     [COLLECTION_NAMES.listEntry]: {
@@ -100,9 +105,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             listId: { type: 'int' },
             description: { type: 'text' },
         },
-        indices: [
-            { field: 'listId', pk: true },
-        ],
+        indices: [{ field: 'listId', pk: true }],
     },
     [COLLECTION_NAMES.listEntryDescription]: {
         version: new Date(STORAGE_VERSIONS[20].version),
@@ -111,8 +114,6 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             pageUrl: { type: 'string' },
             description: { type: 'text' },
         },
-        indices: [
-            { field: ['listId', 'pageUrl'], pk: true },
-        ],
+        indices: [{ field: ['listId', 'pageUrl'], pk: true }],
     },
 }
