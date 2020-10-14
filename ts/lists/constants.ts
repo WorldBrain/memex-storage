@@ -1,9 +1,13 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
 import { STORAGE_VERSIONS } from '../browser-extension/storage/versions'
 
-export const SPECIAL_LISTS = {
+export const SPECIAL_LIST_NAMES = {
     MOBILE: 'Saved from Mobile',
     INBOX: 'Inbox',
+}
+
+export const SPECIAL_LIST_IDS = {
+    INBOX: 20201014,
 }
 
 export const COLLECTION_NAMES = {
