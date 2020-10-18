@@ -19,10 +19,11 @@ export const COLLECTION_NAMES = {
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.list]: {
-        version: new Date('2019-09-13'),
+        version: new Date('2020-10-18'),
         fields: {
             id: { type: 'int' },
             name: { type: 'string' },
+            searchableName: { type: 'text' },
             isDeletable: { type: 'boolean', optional: true },
             isNestable: { type: 'boolean', optional: true },
             createdAt: { type: 'datetime' },
@@ -30,11 +31,29 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         indices: [
             { field: 'id', pk: true },
             { field: 'name' },
+            { field: 'searchableName', fullTextIndexName: 'nameTerms' },
             { field: 'isDeletable' },
             { field: 'isNestable' },
             { field: 'createdAt' },
         ],
         history: [
+            {
+                version: new Date('2019-09-13'),
+                fields: {
+                    id: { type: 'int' },
+                    name: { type: 'string' },
+                    isDeletable: { type: 'boolean', optional: true },
+                    isNestable: { type: 'boolean', optional: true },
+                    createdAt: { type: 'datetime' },
+                },
+                indices: [
+                    { field: 'id', pk: true },
+                    { field: 'name' },
+                    { field: 'isDeletable' },
+                    { field: 'isNestable' },
+                    { field: 'createdAt' },
+                ],
+            },
             {
                 version: new Date('2018-07-12'),
                 fields: {
