@@ -23,7 +23,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         fields: {
             id: { type: 'int' },
             name: { type: 'string' },
-            searchableName: { type: 'text' },
+            searchableName: { type: 'text', optional: true },
             isDeletable: { type: 'boolean', optional: true },
             isNestable: { type: 'boolean', optional: true },
             createdAt: { type: 'datetime' },

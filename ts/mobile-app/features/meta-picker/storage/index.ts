@@ -185,6 +185,7 @@ export class MetaPickerStorage extends StorageModule {
             id: MetaPickerStorage.generateListId(),
             createdAt: new Date(),
             ...list,
+            searchableName: list.name,
         })
     }
 
