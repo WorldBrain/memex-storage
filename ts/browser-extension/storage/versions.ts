@@ -23,4 +23,5 @@ export const STORAGE_VERSIONS = {
     20: { version: new Date('2020-07-15') },
     21: { version: new Date('2020-08-07') },
     22: { version: new Date('2020-10-13') },
+    23: { version: new Date('2020-10-18') },
 }
