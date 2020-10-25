@@ -122,6 +122,14 @@ export class OverviewStorage extends StorageModule {
                     operation: 'createObject',
                     collection: OverviewStorage.VISIT_COLL,
                 },
+                deleteVisit: {
+                    operation: 'deleteObject',
+                    collection: OverviewStorage.VISIT_COLL,
+                    args: {
+                        url: '$url:string',
+                        time: '$time:number',
+                    },
+                },
                 findVisitsForPage: {
                     operation: 'findObjects',
                     collection: OverviewStorage.VISIT_COLL,
@@ -195,6 +203,15 @@ export class OverviewStorage extends StorageModule {
         await this.operation('unstarPage', { url })
         await this.operation('deletePage', { url })
         await this.operation('deleteListEntriesForPage', { url })
+    }
+
+    async deleteVisit(args: { url: string; time: number }): Promise<void> {
+        const normalizedUrl = this.normalizeUrl(args.url)
+
+        await this.operation('deleteVisit', {
+            url: normalizedUrl,
+            time: args.time,
+        })
     }
 
     async updatePageTitle({
