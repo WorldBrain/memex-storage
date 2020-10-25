@@ -12,6 +12,7 @@ import {
     COLLECTION_DEFINITIONS as LIST_COLL_DEFINITIONS,
     COLLECTION_NAMES as LIST_COLL_NAMES,
     SPECIAL_LIST_NAMES,
+    SPECIAL_LIST_IDS,
 } from '../../../../lists/constants'
 import { SuggestArgs, SuggestPlugin } from '../../../plugins/suggest'
 
@@ -189,12 +190,12 @@ export class MetaPickerStorage extends StorageModule {
         })
     }
 
-    createPageListEntry(entry: { pageUrl: string; listId: number }) {
+    createPageListEntry(entry: { fullPageUrl: string; listId: number }) {
         return this.operation('createListEntry', {
             createdAt: new Date(),
             listId: entry.listId,
-            pageUrl: this.options.normalizeUrl(entry.pageUrl),
-            fullUrl: entry.pageUrl,
+            pageUrl: this.options.normalizeUrl(entry.fullPageUrl),
+            fullUrl: entry.fullPageUrl,
         })
     }
 
@@ -384,7 +385,7 @@ export class MetaPickerStorage extends StorageModule {
         const toAdd = inputListIds.filter((id) => !existingEntryIdSet.has(id))
 
         for (const listId of toAdd) {
-            await this.createPageListEntry({ listId, pageUrl: url })
+            await this.createPageListEntry({ listId, fullPageUrl: url })
         }
 
         for (const listId of toRemove) {
@@ -436,7 +437,7 @@ export class MetaPickerStorage extends StorageModule {
         const foundMobileLists = await this.findListsByNames({
             names: [SPECIAL_LIST_NAMES.MOBILE],
         })
-        if (foundMobileLists.length) {
+        if (foundMobileLists?.length) {
             return foundMobileLists[0].id
         }
 
@@ -447,5 +448,46 @@ export class MetaPickerStorage extends StorageModule {
                 isNestable: false,
             })
         ).object.id
+    }
+
+    async createMobileListEntry(args: { fullPageUrl: string }) {
+        const mobileListId = await this.createMobileListIfAbsent()
+
+        await this.createPageListEntry({
+            fullPageUrl: args.fullPageUrl,
+            listId: mobileListId,
+        })
+    }
+
+    async createInboxListIfAbsent({
+        createdAt = new Date(),
+    }: {
+        createdAt?: Date
+    }): Promise<number> {
+        const foundInboxLists = await this.findListsByNames({
+            names: [SPECIAL_LIST_NAMES.MOBILE],
+        })
+        if (foundInboxLists?.length) {
+            return foundInboxLists[0].id
+        }
+
+        return (
+            await this.operation('createList', {
+                name: SPECIAL_LIST_NAMES.INBOX,
+                id: SPECIAL_LIST_IDS.INBOX,
+                isDeletable: false,
+                isNestable: false,
+                createdAt,
+            })
+        ).object.id
+    }
+
+    async createInboxListEntry(args: { fullPageUrl: string }) {
+        const inboxListId = await this.createInboxListIfAbsent({})
+
+        await this.createPageListEntry({
+            fullPageUrl: args.fullPageUrl,
+            listId: inboxListId,
+        })
     }
 }
