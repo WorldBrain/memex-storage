@@ -465,7 +465,7 @@ export class MetaPickerStorage extends StorageModule {
         createdAt?: Date
     }): Promise<number> {
         const foundInboxLists = await this.findListsByNames({
-            names: [SPECIAL_LIST_NAMES.MOBILE],
+            names: [SPECIAL_LIST_NAMES.INBOX],
         })
         if (foundInboxLists?.length) {
             return foundInboxLists[0].id
