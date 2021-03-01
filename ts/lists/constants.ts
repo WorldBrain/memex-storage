@@ -8,6 +8,7 @@ export const SPECIAL_LIST_NAMES = {
 
 export const SPECIAL_LIST_IDS = {
     INBOX: 20201014,
+    MOBILE: 20201015,
 }
 
 export const COLLECTION_NAMES = {
