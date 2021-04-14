@@ -63,11 +63,11 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         relationships: [
             {
                 childOf: COLLECTION_NAMES.annotation,
-                alias: 'annotationId',
-                fieldName: 'annotationId',
+                alias: 'annotation',
+                fieldName: 'annotation',
             },
         ],
-        indices: [{ field: { relationship: 'annotationId' }, pk: true }],
+        indices: [{ field: { relationship: 'annotation' }, pk: true }],
     },
     [COLLECTION_NAMES.bookmark]: {
         version: new Date('2019-01-05'),
