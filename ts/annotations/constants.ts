@@ -56,18 +56,12 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.annotationPrivacy]: {
         version: new Date(STORAGE_VERSIONS[24].version),
         fields: {
+            annotation: { type: 'string' }, // TODO: Set this as a proper FK to annotation collection
             privacyLevel: { type: 'int' },
             createdWhen: { type: 'timestamp' },
             updatedWhen: { type: 'timestamp', optional: true },
         },
-        relationships: [
-            {
-                childOf: COLLECTION_NAMES.annotation,
-                alias: 'annotation',
-                fieldName: 'annotation',
-            },
-        ],
-        indices: [{ field: { relationship: 'annotation' }, pk: true }],
+        indices: [{ field: 'annotation' }],
     },
     [COLLECTION_NAMES.bookmark]: {
         version: new Date('2019-01-05'),
