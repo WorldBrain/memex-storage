@@ -37,6 +37,27 @@
     source-map-support "0.5.16"
     typeorm "^0.2.17"
 
+"@worldbrain/storex-pattern-modules@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@worldbrain/storex-pattern-modules/-/storex-pattern-modules-0.3.0.tgz#f3ea52163aedc71a3b175897c78c13aad6ddadee"
+  integrity sha512-3+TWQ7oylAclHBy73UA1L/IYiLH1LkvgojYsKQHpXydQtqLk2H1S/eJ7/VZ9hjyG2vGdgG6tx1a5ILVI6phKEg==
+  dependencies:
+    lodash "^4.17.10"
+    source-map-support "^0.4.18"
+    user-logic "^0.0.1"
+
+"@worldbrain/storex@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@worldbrain/storex/-/storex-0.4.1.tgz#daab9669371290618f867ebf1dcef94c13c3b3d1"
+  integrity sha512-YZADOArVpi5U0UNdKSxv041t08knlA9yLfgAK7Lurtwpl6WzCghjwo6gzAeHhbn9lXmhU/75ZqE4sQ2GUPvYdg==
+  dependencies:
+    event-emitter "^0.3.5"
+    events "^3.0.0"
+    lodash "^4.17.11"
+    pluralize "^7.0.0"
+    randombytes "^2.0.6"
+    source-map-support "^0.4.18"
+
 ansi-regex@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
@@ -442,10 +463,10 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash@^4.17.11:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+lodash@^4.17.10, lodash@^4.17.11:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 minimatch@^3.0.4:
   version "3.0.4"
@@ -487,6 +508,11 @@ object-assign@^4.0.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
+
+object-path@^0.11.4:
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.5.tgz#d4e3cf19601a5140a55a16ad712019a9c50b577a"
+  integrity sha512-jgSbThcoR/s+XumvGMTMf81QVBmah+/Q7K7YduKeKVWL7N111unR2d6pZZarSk6kY/caeNxUDyxOvMWyzoU2eg==
 
 once@^1.3.0:
   version "1.4.0"
@@ -626,6 +652,18 @@ source-map-support@0.5.16:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
 
+source-map-support@^0.4.18:
+  version "0.4.18"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
+  integrity sha512-try0/JqxPLF9nOjvSta7tVondkP5dwgyLDjVoyMDlmjugT2lRZ1OfsrYTkCd2hkDnJTKRbO/Rl3orm8vlsUzbA==
+  dependencies:
+    source-map "^0.5.6"
+
+source-map@^0.5.6:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
+  integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
+
 source-map@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
@@ -756,6 +794,15 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+user-logic@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/user-logic/-/user-logic-0.0.1.tgz#cb3ce06eb46a1d38c0aa0cbf63856ad1b4f7bfa7"
+  integrity sha512-fptFCNu4xhscimigeSZcAY460Vh63dgpPHpKfZ75EJioWdZ9MpWryzINMPX+yNomsYJP3Pedj08vW5yHxoo3BA==
+  dependencies:
+    lodash "^4.17.11"
+    object-path "^0.11.4"
+    source-map-support "^0.4.18"
 
 which-module@^2.0.0:
   version "2.0.0"
