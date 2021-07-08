@@ -58,8 +58,8 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         fields: {
             annotation: { type: 'string' }, // TODO: Set this as a proper FK to annotation collection
             privacyLevel: { type: 'int' },
-            createdWhen: { type: 'timestamp' },
-            updatedWhen: { type: 'timestamp', optional: true },
+            createdWhen: { type: 'datetime' },
+            updatedWhen: { type: 'datetime', optional: true },
         },
         indices: [{ field: 'annotation' }],
     },
