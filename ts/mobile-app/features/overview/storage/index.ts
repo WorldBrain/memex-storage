@@ -189,6 +189,7 @@ export class OverviewStorage extends StorageModule {
         const page: Page = {
             ...inputPage,
             url: this.normalizeUrl(inputPage.url),
+            canonicalUrl: inputPage.canonicalUrl ?? inputPage.fullUrl,
             domain,
             hostname,
         }
