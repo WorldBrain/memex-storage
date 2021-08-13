@@ -354,7 +354,14 @@ export class MetaPickerStorage extends StorageModule {
      * Should go through input `lists`, make sure any new lists exist, then ensure entries for
      * only these lists exist for a given page.
      */
-    async setPageLists({ lists, url }: { lists: string[]; url: string }) {
+    async setPageLists({
+        lists,
+        fullPageUrl,
+    }: {
+        lists: string[]
+        fullPageUrl: string
+    }) {
+        const normalizedPageUrl = this.options.normalizeUrl(fullPageUrl)
         const existingLists = await this.findListsByNames({ names: lists })
         const existingListsSet = new Set(existingLists.map((list) => list.name))
 
@@ -366,7 +373,9 @@ export class MetaPickerStorage extends StorageModule {
             newListIds.push(result.object.id)
         }
 
-        const existingEntries = await this.findPageListEntriesByPage({ url })
+        const existingEntries = await this.findPageListEntriesByPage({
+            url: normalizedPageUrl,
+        })
 
         // Find any existing entries that are not in input lists
         const inputListIds = [
@@ -385,11 +394,14 @@ export class MetaPickerStorage extends StorageModule {
         const toAdd = inputListIds.filter((id) => !existingEntryIdSet.has(id))
 
         for (const listId of toAdd) {
-            await this.createPageListEntry({ listId, fullPageUrl: url })
+            await this.createPageListEntry({ listId, fullPageUrl })
         }
 
         for (const listId of toRemove) {
-            await this.deletePageEntryFromList({ listId, url })
+            await this.deletePageEntryFromList({
+                listId,
+                url: normalizedPageUrl,
+            })
         }
     }
 
