@@ -202,8 +202,8 @@ export class OverviewStorage extends StorageModule {
         // TODO: can we do this in a transaction?
         await this.operation('deleteVisitsForPage', { url })
         await this.operation('unstarPage', { url })
-        await this.operation('deletePage', { url })
         await this.operation('deleteListEntriesForPage', { url })
+        await this.operation('deletePage', { url })
     }
 
     async deleteVisit(args: { url: string; time: number }): Promise<void> {
