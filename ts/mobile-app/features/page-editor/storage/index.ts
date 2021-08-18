@@ -164,7 +164,8 @@ export class PageEditorStorage extends StorageModule {
         return this.operation('createNote', {
             createdWhen: new Date(customTimestamp),
             lastEdited: new Date(customTimestamp),
-            ...note,
+            pageTitle: note.pageTitle,
+            comment: note.comment,
             pageUrl,
             url: this.createAnnotationUrl({
                 pageUrl,
@@ -182,7 +183,10 @@ export class PageEditorStorage extends StorageModule {
         return this.operation('createNote', {
             createdWhen: new Date(customTimestamp),
             lastEdited: new Date(customTimestamp),
-            ...annotation,
+            pageTitle: annotation.pageTitle,
+            selector: annotation.selector,
+            comment: annotation.comment,
+            body: annotation.body,
             pageUrl,
             url: this.createAnnotationUrl({
                 pageUrl,

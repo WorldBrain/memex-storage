@@ -183,7 +183,7 @@ export class OverviewStorage extends StorageModule {
         return !!bookmark
     }
 
-    createPage(inputPage: Omit<Page, 'domain' | 'hostname'>) {
+    createPage(inputPage: Omit<Page, 'domain' | 'hostname' | 'pageUrl'>) {
         const { domain, hostname } = this.extractUrlParts(inputPage.url)
 
         const page: Page = {
