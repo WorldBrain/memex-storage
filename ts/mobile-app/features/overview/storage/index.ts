@@ -48,12 +48,6 @@ export class OverviewStorage extends StorageModule {
         COLLECTION_DEFINITIONS[
             OverviewStorage.FAVICON_COLL
         ].fields.favIcon.type = 'string'
-        //  TYPE: 'timestamp' => 'datetime'
-        COLLECTION_DEFINITIONS[OverviewStorage.VISIT_COLL].fields.time.type =
-            'datetime'
-        //  TYPE: 'timestamp' => 'datetime'
-        COLLECTION_DEFINITIONS[OverviewStorage.BOOKMARK_COLL].fields.time.type =
-            'datetime'
 
         return {
             collections: {
