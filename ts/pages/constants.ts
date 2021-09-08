@@ -1,15 +1,17 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
+import { STORAGE_VERSIONS } from '../browser-extension/storage/versions'
 
 export const COLLECTION_NAMES = {
     page: 'pages',
     visit: 'visits',
     favIcon: 'favIcons',
     bookmark: 'bookmarks',
+    locators: 'locators',
 }
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.page]: {
-        version: new Date('2018-02-01'),
+        version: STORAGE_VERSIONS[0].version,
         fields: {
             url: { type: 'string' },
             fullUrl: { type: 'text' },
@@ -32,7 +34,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         ],
     },
     [COLLECTION_NAMES.visit]: {
-        version: new Date('2018-02-01'),
+        version: STORAGE_VERSIONS[0].version,
         fields: {
             url: { type: 'string' },
             time: { type: 'timestamp' },
@@ -45,7 +47,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         indices: [{ field: ['time', 'url'], pk: true }, { field: 'url' }],
     },
     [COLLECTION_NAMES.bookmark]: {
-        version: new Date('2018-02-01'),
+        version: STORAGE_VERSIONS[0].version,
         fields: {
             url: { type: 'string' },
             time: { type: 'timestamp' },
@@ -53,11 +55,33 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         indices: [{ field: 'url', pk: true }, { field: 'time' }],
     },
     [COLLECTION_NAMES.favIcon]: {
-        version: new Date('2018-02-01'),
+        version: STORAGE_VERSIONS[0].version,
         fields: {
             hostname: { type: 'string' },
             favIcon: { type: 'blob' },
         },
         indices: [{ field: 'hostname', pk: true }],
     },
+    [COLLECTION_NAMES.locators]: {
+        version: STORAGE_VERSIONS[26].version,
+        fields: {
+            normalizedUrl: { type: 'string' },
+            locationType: { type: 'string' },
+            location: { type: 'string' },
+            format: { type: 'string' },
+            originalLocation: { type: 'string' },
+            locationScheme: { type: 'string' },
+            primary: { type: 'boolean' },
+            valid: { type: 'boolean' },
+            version: { type: 'timestamp' },
+            fingerprintScheme: { type: 'string', optional: true },
+            fingerprint: { type: 'string', optional: true },
+            lastVisited: { type: 'timestamp', optional: true },
+            contentSize: { type: 'int', optional: true }, // in bytes
+        },
+        indices: [
+            { field: 'normalizedUrl' },
+            { field: 'fingerprint' }
+        ]
+    }
 }
