@@ -6,7 +6,7 @@ export const COLLECTION_NAMES = {
     visit: 'visits',
     favIcon: 'favIcons',
     bookmark: 'bookmarks',
-    locators: 'locators',
+    locator: 'locators',
 }
 
 export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
@@ -62,7 +62,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
         },
         indices: [{ field: 'hostname', pk: true }],
     },
-    [COLLECTION_NAMES.locators]: {
+    [COLLECTION_NAMES.locator]: {
         version: STORAGE_VERSIONS[26].version,
         fields: {
             normalizedUrl: { type: 'string' },
