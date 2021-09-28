@@ -445,7 +445,11 @@ export class MetaPickerStorage extends StorageModule {
         })
     }
 
-    async createMobileListIfAbsent() {
+    async createMobileListIfAbsent({
+        createdAt = new Date(),
+    }: {
+        createdAt?: Date
+    }) {
         const foundMobileLists = await this.findListsByNames({
             names: [SPECIAL_LIST_NAMES.MOBILE],
         })
@@ -454,16 +458,19 @@ export class MetaPickerStorage extends StorageModule {
         }
 
         return (
-            await this.createList({
+            await this.operation('createList', {
+                id: SPECIAL_LIST_IDS.MOBILE,
                 name: SPECIAL_LIST_NAMES.MOBILE,
+                searchableName: SPECIAL_LIST_NAMES.MOBILE,
                 isDeletable: false,
                 isNestable: false,
+                createdAt,
             })
         ).object.id
     }
 
     async createMobileListEntry(args: { fullPageUrl: string }) {
-        const mobileListId = await this.createMobileListIfAbsent()
+        const mobileListId = await this.createMobileListIfAbsent({})
 
         await this.createPageListEntry({
             fullPageUrl: args.fullPageUrl,
