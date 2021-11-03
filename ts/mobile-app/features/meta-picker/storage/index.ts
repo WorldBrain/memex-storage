@@ -55,11 +55,25 @@ export class MetaPickerStorage extends StorageModule {
                 operation: 'createObject',
                 collection: MetaPickerStorage.TAG_COLL,
             },
+            findListByName: {
+                operation: 'findObject',
+                collection: MetaPickerStorage.LIST_COLL,
+                args: {
+                    name: '$name:string',
+                },
+            },
             findListsByNames: {
                 operation: 'findObjects',
                 collection: MetaPickerStorage.LIST_COLL,
                 args: {
                     name: { $in: '$names:string[]' },
+                },
+            },
+            findListById: {
+                operation: 'findObject',
+                collection: MetaPickerStorage.LIST_COLL,
+                args: {
+                    id: '$listId:number',
                 },
             },
             findListsByIds: {
@@ -445,25 +459,54 @@ export class MetaPickerStorage extends StorageModule {
         })
     }
 
-    async createMobileListIfAbsent() {
-        const foundMobileLists = await this.findListsByNames({
-            names: [SPECIAL_LIST_NAMES.MOBILE],
+    async createMobileListIfAbsent({
+        createdAt = new Date(),
+    }: {
+        createdAt?: Date
+    }) {
+        const staticMobileList = await this.operation('findListById', {
+            listId: SPECIAL_LIST_IDS.MOBILE,
         })
-        if (foundMobileLists?.length) {
-            return foundMobileLists[0].id
+
+        if (staticMobileList != null) {
+            return SPECIAL_LIST_IDS.MOBILE
         }
 
-        return (
-            await this.createList({
-                name: SPECIAL_LIST_NAMES.MOBILE,
-                isDeletable: false,
-                isNestable: false,
+        // The following code exists to update any dynamically created mobile list + entries to the static one - should only ever run once
+        const dynamicMobileList = (await this.operation('findListByName', {
+            name: SPECIAL_LIST_NAMES.MOBILE,
+        })) as List
+
+        await this.operation('createList', {
+            id: SPECIAL_LIST_IDS.MOBILE,
+            name: SPECIAL_LIST_NAMES.MOBILE,
+            searchableName: SPECIAL_LIST_NAMES.MOBILE,
+            isDeletable: false,
+            isNestable: false,
+            createdAt,
+        })
+
+        if (dynamicMobileList != null) {
+            const dynamicEntries = await this.operation('findEntriesByList', {
+                listId: dynamicMobileList.id,
             })
-        ).object.id
+            for (const entry of dynamicEntries) {
+                await this.operation('createListEntry', {
+                    ...entry,
+                    listId: SPECIAL_LIST_IDS.MOBILE,
+                })
+            }
+            await this.operation('deleteEntriesForList', {
+                listId: dynamicMobileList.id,
+            })
+            await this.operation('deleteList', { listId: dynamicMobileList.id })
+        }
+
+        return SPECIAL_LIST_IDS.MOBILE
     }
 
     async createMobileListEntry(args: { fullPageUrl: string }) {
-        const mobileListId = await this.createMobileListIfAbsent()
+        const mobileListId = await this.createMobileListIfAbsent({})
 
         await this.createPageListEntry({
             fullPageUrl: args.fullPageUrl,
