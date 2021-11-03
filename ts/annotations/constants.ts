@@ -1,9 +1,7 @@
 import { StorageModuleCollections } from '@worldbrain/storex-pattern-modules'
-import { STORAGE_VERSIONS } from '../browser-extension/storage/versions'
 
 export const COLLECTION_NAMES = {
     annotation: 'annotations',
-    annotationPrivacy: 'annotationPrivacyLevels',
     listEntry: 'annotListEntries',
     bookmark: 'annotBookmarks',
 }
@@ -52,16 +50,6 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
                 ],
             },
         ],
-    },
-    [COLLECTION_NAMES.annotationPrivacy]: {
-        version: new Date(STORAGE_VERSIONS[24].version),
-        fields: {
-            annotation: { type: 'string' }, // TODO: Set this as a proper FK to annotation collection
-            privacyLevel: { type: 'int' },
-            createdWhen: { type: 'datetime' },
-            updatedWhen: { type: 'datetime', optional: true },
-        },
-        indices: [{ field: 'annotation' }],
     },
     [COLLECTION_NAMES.bookmark]: {
         version: new Date('2019-01-05'),
