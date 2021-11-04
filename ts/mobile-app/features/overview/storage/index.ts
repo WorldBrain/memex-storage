@@ -27,6 +27,7 @@ export class OverviewStorage extends StorageModule {
     static VISIT_COLL = COLLECTION_NAMES.visit
     static BOOKMARK_COLL = COLLECTION_NAMES.bookmark
     static FAVICON_COLL = COLLECTION_NAMES.favIcon
+    static LOCATOR_COLL = COLLECTION_NAMES.locator
 
     private normalizeUrl: URLNormalizer
     private extractUrlParts: URLPartsExtractor
@@ -150,6 +151,13 @@ export class OverviewStorage extends StorageModule {
                         url: '$url:string',
                     },
                 },
+                deleteLocatorsForPage: {
+                    operation: 'deleteObjects',
+                    collection: OverviewStorage.LOCATOR_COLL,
+                    args: {
+                        normalizedUrl: '$url:string',
+                    },
+                },
                 deleteListEntriesForPage: {
                     operation: 'deleteObjects',
                     collection: LISTS_COLLECTION_NAMES.listEntry,
@@ -198,6 +206,7 @@ export class OverviewStorage extends StorageModule {
         await this.operation('unstarPage', { url })
         await this.operation('deleteListEntriesForPage', { url })
         await this.operation('deletePage', { url })
+        await this.operation('deleteLocatorsForPage', { url })
     }
 
     async deleteVisit(args: { url: string; time: number }): Promise<void> {
