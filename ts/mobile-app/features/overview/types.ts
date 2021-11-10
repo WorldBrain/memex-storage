@@ -10,6 +10,7 @@ export interface Page {
     description?: string
     canonicalUrl?: string
     isStarred?: boolean
+    type: 'page' | 'pdf-local' | 'pdf-remote'
 }
 
 export interface Visit {
