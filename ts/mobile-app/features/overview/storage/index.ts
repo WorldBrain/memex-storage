@@ -223,6 +223,7 @@ export class OverviewStorage extends StorageModule {
             canonicalUrl: inputPage.canonicalUrl ?? inputPage.fullUrl,
             domain,
             hostname,
+            type: 'page',
         }
 
         return this.operation('createPage', page)
