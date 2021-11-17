@@ -74,14 +74,12 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             primary: { type: 'boolean' },
             valid: { type: 'boolean' },
             version: { type: 'timestamp' },
+            deviceId: { type: 'string', optional: true },
             fingerprintScheme: { type: 'string', optional: true },
             fingerprint: { type: 'string', optional: true },
             lastVisited: { type: 'timestamp', optional: true },
             contentSize: { type: 'int', optional: true }, // in bytes
         },
-        indices: [
-            { field: 'normalizedUrl' },
-            { field: 'fingerprint' }
-        ]
-    }
+        indices: [{ field: 'normalizedUrl' }, { field: 'fingerprint' }],
+    },
 }
