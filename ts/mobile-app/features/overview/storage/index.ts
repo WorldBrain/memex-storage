@@ -194,7 +194,7 @@ export class OverviewStorage extends StorageModule {
                 },
             )
             const mainLocator = pickBestLocator(locators)
-            page.fullUrl = mainLocator?.originalLocation ?? null
+            page.fullUrl = mainLocator?.originalLocation ?? page.fullUrl
             page.type =
                 mainLocator?.locationType === ContentLocatorType.Remote
                     ? 'pdf-remote'
