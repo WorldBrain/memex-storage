@@ -3,8 +3,12 @@ import {
     StorageModuleConfig,
     StorageModuleConstructorArgs,
 } from '@worldbrain/storex-pattern-modules'
-import { URLPartsExtractor } from '@worldbrain/memex-url-utils/lib/extract-parts/types'
-import { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
+import { isPagePdf } from '@worldbrain/memex-common/lib/page-indexing/utils'
+import type { URLPartsExtractor } from '@worldbrain/memex-url-utils/lib/extract-parts/types'
+import type { URLNormalizer } from '@worldbrain/memex-url-utils/lib/normalize/types'
+import type { ContentLocator } from '@worldbrain/memex-common/lib/page-indexing/types'
+import { ContentLocatorType } from '@worldbrain/memex-common/lib/personal-cloud/storage/types'
+import { pickBestLocator } from '@worldbrain/memex-common/lib/page-indexing/utils'
 
 import {
     COLLECTION_DEFINITIONS,
@@ -27,6 +31,7 @@ export class OverviewStorage extends StorageModule {
     static VISIT_COLL = COLLECTION_NAMES.visit
     static BOOKMARK_COLL = COLLECTION_NAMES.bookmark
     static FAVICON_COLL = COLLECTION_NAMES.favIcon
+    static LOCATOR_COLL = COLLECTION_NAMES.locator
 
     private normalizeUrl: URLNormalizer
     private extractUrlParts: URLPartsExtractor
@@ -48,12 +53,6 @@ export class OverviewStorage extends StorageModule {
         COLLECTION_DEFINITIONS[
             OverviewStorage.FAVICON_COLL
         ].fields.favIcon.type = 'string'
-        //  TYPE: 'timestamp' => 'datetime'
-        COLLECTION_DEFINITIONS[OverviewStorage.VISIT_COLL].fields.time.type =
-            'datetime'
-        //  TYPE: 'timestamp' => 'datetime'
-        COLLECTION_DEFINITIONS[OverviewStorage.BOOKMARK_COLL].fields.time.type =
-            'datetime'
 
         return {
             collections: {
@@ -156,11 +155,25 @@ export class OverviewStorage extends StorageModule {
                         url: '$url:string',
                     },
                 },
+                deleteLocatorsForPage: {
+                    operation: 'deleteObjects',
+                    collection: OverviewStorage.LOCATOR_COLL,
+                    args: {
+                        normalizedUrl: '$url:string',
+                    },
+                },
                 deleteListEntriesForPage: {
                     operation: 'deleteObjects',
                     collection: LISTS_COLLECTION_NAMES.listEntry,
                     args: {
                         pageUrl: '$url:string',
+                    },
+                },
+                findLocatorsForPage: {
+                    operation: 'findObjects',
+                    collection: OverviewStorage.LOCATOR_COLL,
+                    args: {
+                        normalizedUrl: '$normalizedUrl:string',
                     },
                 },
             },
@@ -169,9 +182,25 @@ export class OverviewStorage extends StorageModule {
 
     async findPage({ url }: PageOpArgs): Promise<Page | null> {
         url = this.normalizeUrl(url)
-        const page = await this.operation('findPage', { url })
+        const page: Page = await this.operation('findPage', { url })
         if (!page) {
             return null
+        }
+        if (isPagePdf(page)) {
+            const locators: ContentLocator[] = await this.operation(
+                'findLocatorsForPage',
+                {
+                    normalizedUrl: url,
+                },
+            )
+            const mainLocator = pickBestLocator(locators)
+            page.fullUrl = mainLocator?.originalLocation ?? page.fullUrl
+            page.type =
+                mainLocator?.locationType === ContentLocatorType.Remote
+                    ? 'pdf-remote'
+                    : 'pdf-local'
+        } else {
+            page.type = 'page'
         }
         const isStarred = await this.operation('findBookmark', { url })
         return { ...page, isStarred: !!isStarred }
@@ -183,14 +212,18 @@ export class OverviewStorage extends StorageModule {
         return !!bookmark
     }
 
-    createPage(inputPage: Omit<Page, 'domain' | 'hostname'>) {
+    createPage(
+        inputPage: Omit<Page, 'domain' | 'hostname' | 'pageUrl' | 'type'>,
+    ) {
         const { domain, hostname } = this.extractUrlParts(inputPage.url)
 
         const page: Page = {
             ...inputPage,
             url: this.normalizeUrl(inputPage.url),
+            canonicalUrl: inputPage.canonicalUrl ?? inputPage.fullUrl,
             domain,
             hostname,
+            type: 'page',
         }
 
         return this.operation('createPage', page)
@@ -201,8 +234,9 @@ export class OverviewStorage extends StorageModule {
         // TODO: can we do this in a transaction?
         await this.operation('deleteVisitsForPage', { url })
         await this.operation('unstarPage', { url })
-        await this.operation('deletePage', { url })
         await this.operation('deleteListEntriesForPage', { url })
+        await this.operation('deletePage', { url })
+        await this.operation('deleteLocatorsForPage', { url })
     }
 
     async deleteVisit(args: { url: string; time: number }): Promise<void> {

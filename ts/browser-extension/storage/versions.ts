@@ -24,4 +24,7 @@ export const STORAGE_VERSIONS = {
     21: { version: new Date('2020-08-07') },
     22: { version: new Date('2020-10-13') },
     23: { version: new Date('2020-10-18') },
+    24: { version: new Date('2021-04-12') },
+    25: { version: new Date('2021-05-26') }, // cloud introduced
+    26: { version: new Date('2021-09-07') }, // content locators introduced
 }

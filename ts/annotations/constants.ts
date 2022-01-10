@@ -10,7 +10,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
     [COLLECTION_NAMES.annotation]: {
         version: new Date('2019-02-19'),
         fields: {
-            pageTitle: { type: 'text' },
+            pageTitle: { type: 'text', optional: true },
             pageUrl: { type: 'string' },
             body: { type: 'text', optional: true },
             comment: { type: 'text', optional: true },
