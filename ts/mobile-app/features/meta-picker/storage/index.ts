@@ -22,6 +22,7 @@ export class MetaPickerStorage extends StorageModule {
     static TAG_COLL = TAG_COLL_NAMES.tag
     static LIST_COLL = LIST_COLL_NAMES.list
     static LIST_ENTRY_COLL = LIST_COLL_NAMES.listEntry
+    static LIST_DESCRIPTION_COLL = LIST_COLL_NAMES.listDescription
 
     static DEF_SUGGESTION_LIMIT = 7
     static DEF_TAG_LIMIT = 1000
@@ -72,6 +73,13 @@ export class MetaPickerStorage extends StorageModule {
             findListById: {
                 operation: 'findObject',
                 collection: MetaPickerStorage.LIST_COLL,
+                args: {
+                    id: '$listId:number',
+                },
+            },
+            findListDescriptionById: {
+                operation: 'findObject',
+                collection: MetaPickerStorage.LIST_DESCRIPTION_COLL,
                 args: {
                     id: '$listId:number',
                 },
