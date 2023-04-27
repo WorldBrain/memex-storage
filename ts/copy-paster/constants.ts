@@ -12,6 +12,7 @@ export const COLLECTION_DEFINITIONS: StorageModuleCollections = {
             title: { type: 'string' },
             code: { type: 'string' },
             isFavourite: { type: 'boolean' },
+            outputFormat: { type: 'string' },
         },
         indices: [
             { field: 'id', pk: true },
